@@ -1,0 +1,8 @@
+p.3:  company distribution
+	- percentage of what?
+p.7:  technical proposal
+	- much more details needed
+p.10: cost plan
+	- too high man hour rate
+	- do not mention mark-up (included in hour rate)
+	- respect preparations (e.g. for RFP)
