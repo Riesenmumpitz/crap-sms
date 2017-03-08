@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.3">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>570</x>
+      <y>150</y>
+      <w>170</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>data integrity 
+&amp; confidentiality</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>330</x>
+      <y>160</y>
+      <w>160</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Add subscribers
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>330</x>
+      <y>220</y>
+      <w>160</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Remove subscribers
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>300</x>
+      <y>100</y>
+      <w>220</w>
+      <h>610</h>
+    </coordinates>
+    <panel_attributes>functional
+halign=left</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>550</x>
+      <y>100</y>
+      <w>210</w>
+      <h>610</h>
+    </coordinates>
+    <panel_attributes>non functional
+halign=left</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>570</x>
+      <y>230</y>
+      <w>170</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>reliable</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>570</x>
+      <y>280</y>
+      <w>170</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>swift</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>570</x>
+      <y>330</y>
+      <w>170</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>resistant against 
+errors in Input</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>330</x>
+      <y>280</y>
+      <w>160</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>List entries
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>570</x>
+      <y>400</y>
+      <w>170</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>compatible with 
+Java 1.6.0_45</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>570</x>
+      <y>470</y>
+      <w>170</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>easy to maintain</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>570</x>
+      <y>520</y>
+      <w>170</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>extensible</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>310</x>
+      <y>510</y>
+      <w>200</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>an interface that is high on 
+usability and innovation</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>1070</x>
+      <y>150</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Subscriber
+--
+-Forename: string
+-Surname: string
+-IMSI: ??? (MCC, MNC, 10 digit MSIN)
+-Terminal Type
+-Subscription Type
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>170</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>330</x>
+      <y>340</y>
+      <w>160</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>create session
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>330</x>
+      <y>400</y>
+      <w>160</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>create invoice
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>820</x>
+      <y>150</y>
+      <w>210</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>password &amp; encryption
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>240</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>820</x>
+      <y>230</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>stürzt nicht ab
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>290</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>820</x>
+      <y>280</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>not too slow
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>350</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>820</x>
+      <y>330</y>
+      <w>210</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>check ALL input
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>480</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>820</x>
+      <y>470</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>logging
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>530</y>
+      <w>100</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>80.0;17.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>810</x>
+      <y>530</y>
+      <w>260</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>using interfaces
+--
+- for output
+- load file/database from older version
+bg=green
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>0</x>
+      <y>340</y>
+      <w>260</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>parameter
+--
+- user (e.g. Name/IMSI)
+- session type
+- session duration
+bg=red
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>250</x>
+      <y>350</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>310</x>
+      <y>130</y>
+      <w>190</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes>functions for user
+halign=left</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.baselet.element.old.element.Class</type>
+    <coordinates>
+      <x>1330</x>
+      <y>210</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Terminal type
+--
+- PhairPhone (2G, 3G)
+- Pear Phone (
+- Sony Zperia X3
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1170</x>
+      <y>220</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;10.0</additional_attributes>
+  </element>
+</diagram>

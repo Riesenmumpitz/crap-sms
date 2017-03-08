@@ -6,3 +6,6 @@ p.10: cost plan
 	- too high man hour rate
 	- do not mention mark-up (included in hour rate)
 	- respect preparations (e.g. for RFP)
+
+top add:
+- risk analysis
