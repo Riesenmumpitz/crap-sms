@@ -2,6 +2,7 @@ package com.crap.sms.controllers;
 
 import java.util.Scanner;
 
+import com.crap.sms.domain.model.User;
 import com.crap.sms.service.UserManagement;
 
 public class Login {
@@ -33,7 +34,13 @@ public class Login {
 					String userName = sc.nextLine();
 					System.out.println("Please enter your password!");
 					int hashedPassword = (sc.nextLine()).hashCode();
-					UserManagement userManagement= new UserManagement();
+					User user = UserManagement.findUser(userName);
+					if (hashedPassword == user.getPasswordHash()) {
+						System.out.println("Access granted. Welcome, " + userName);
+						return true;
+					} else {
+						System.out.println("Access denied. Wrong name or password.");
+					}
 				}
 			}
 		}
@@ -41,7 +48,12 @@ public class Login {
 	}
 
 	public static void createNewUser() {
-
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Please enter a new user name!");
+		String userName = sc.nextLine();
+		if (UserManagement.findUser(userName) != null) {
+			System.out.println("User name not available.");
+		}
 	}
 
 	public static void setNewMasterpassword() {
