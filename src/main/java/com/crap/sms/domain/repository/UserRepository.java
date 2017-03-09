@@ -4,6 +4,7 @@ import com.crap.sms.domain.model.User;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,18 +31,30 @@ public class UserRepository extends AbstractRepository{
     }
 
     public boolean save(User user) {
-        return true;
+        return super.save(user);
     }
 
     public User getByUsername(String username) {
+        List<Object> objects = getAllIntern();
+        for(Object o : objects) {
+            User user = (User)o;
+            if(user.getUserName().equals(username)) {
+                return user;
+            }
+        }
         return null;
     }
 
     public List<User> getAll() {
-        return null;
+        List<User> users = new ArrayList<User>();
+        List<Object> objects = super.getAllIntern();
+        for(Object o : objects) {
+            users.add((User)o);
+        }
+        return users;
     }
 
     public boolean delete(User user) {
-        return true;
+        return super.delete(user);
     }
 }
