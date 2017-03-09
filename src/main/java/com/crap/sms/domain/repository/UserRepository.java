@@ -11,11 +11,13 @@ import java.util.List;
  */
 public class UserRepository extends AbstractRepository{
 
+    private final String storage = "User.txt";
+
     private static UserRepository userRepository = new UserRepository();
 
     private UserRepository() {
         try {
-            File file = new File("User.txt");
+            File file = new File(storage);
             file.createNewFile();
         }
         catch(IOException io) {

@@ -11,11 +11,13 @@ import java.util.List;
  */
 public class SubscriberRepository extends AbstractRepository{
 
+    private final String storage = "Subscriber.txt";
+
     private static SubscriberRepository subscriberRepository = new SubscriberRepository();
 
     private SubscriberRepository() {
         try {
-            File file = new File("Subscriber.txt");
+            File file = new File(storage);
             file.createNewFile();
         }
         catch(IOException io) {
