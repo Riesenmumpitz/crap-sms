@@ -16,7 +16,7 @@ public class Invoice {
 		subscribers = sr.getAll();
 	}
 
-	private String work(){
+	public String work(){
 		String invoice = "";
 		for(Subscriber s : subscribers){
 			//TODO reset
