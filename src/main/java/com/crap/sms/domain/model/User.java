@@ -5,5 +5,18 @@ package com.crap.sms.domain.model;
  */
 public class User {
     private String userName;
-    private String password;
+    private int passwordHash;
+
+    public User(String userName, int password) {
+        this.userName = userName;
+        this.passwordHash = password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public int getPasswordHash() {
+        return passwordHash;
+    }
 }
