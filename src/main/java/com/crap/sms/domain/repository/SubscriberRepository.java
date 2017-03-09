@@ -2,6 +2,8 @@ package com.crap.sms.domain.repository;
 
 import com.crap.sms.domain.model.Subscriber;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -9,12 +11,22 @@ import java.util.List;
  */
 public class SubscriberRepository extends AbstractRepository{
 
+    public SubscriberRepository() {
+        try {
+            File file = new File("Subscriber.txt");
+            file.createNewFile();
+        }
+        catch(IOException io) {
+            io.printStackTrace();
+        }
+    }
+
     public boolean save(Subscriber subscriber) {
         return true;
     }
 
     public Subscriber getByImsi(String Imsi) {
-        return new Subscriber();
+        return null;
     }
 
     public List<Subscriber> getAll () {
@@ -23,5 +35,9 @@ public class SubscriberRepository extends AbstractRepository{
 
     public List<Subscriber> getAllBySubscription () {
         return null;
+    }
+
+    public boolean delete(Subscriber subscriber) {
+        return true;
     }
 }

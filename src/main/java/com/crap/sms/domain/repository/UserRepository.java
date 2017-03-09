@@ -28,4 +28,8 @@ public class UserRepository extends AbstractRepository{
     public List<User> getAll() {
         return null;
     }
+
+    public boolean delete(User user) {
+        return true;
+    }
 }
