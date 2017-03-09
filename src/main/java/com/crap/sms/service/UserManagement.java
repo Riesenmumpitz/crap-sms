@@ -8,9 +8,9 @@ import com.crap.sms.domain.repository.UserRepository;
  */
 public class UserManagement {
 
-    private UserRepository userRepository = UserRepository.getInstance();
+    private static UserRepository userRepository = UserRepository.getInstance();
 
-    public User createUser(String name, int password) {
+    public static User createUser(String name, int password) {
         if (name == null || name.length() == 0) {
             return null;
         }
@@ -21,7 +21,7 @@ public class UserManagement {
         return null;
     }
 
-    public User findUser(String name) {
+    public static User findUser(String name) {
         return userRepository.getByUsername(name);
     }
 }
