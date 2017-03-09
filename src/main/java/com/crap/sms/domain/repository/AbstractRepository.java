@@ -50,9 +50,11 @@ public abstract class AbstractRepository {
     }
 
     protected boolean delete(Object o) {
+        boolean ret = false;
         List<Object> objects = getAllIntern();
         if (objects.contains(o)) {
             objects.remove(o);
+            ret = true;
         }
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(storage));
@@ -65,6 +67,6 @@ public abstract class AbstractRepository {
         } catch (IOException e) {
             return false;
         }
-        return true;
+        return ret;
     }
 }
