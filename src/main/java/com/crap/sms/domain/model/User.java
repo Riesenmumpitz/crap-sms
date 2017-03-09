@@ -19,4 +19,15 @@ public class User {
     public int getPasswordHash() {
         return passwordHash;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (passwordHash != user.passwordHash) return false;
+        return userName.equals(user.userName);
+    }
 }
