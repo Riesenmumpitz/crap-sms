@@ -38,7 +38,8 @@ public class Invoice {
 
 	private String getSubscriberInvoice(Subscriber s) {
 		String invoice = "";
-		invoice+="\n"+"Name: "+s.getSurName()+", "+s.getForeName();
+		invoice+="\n"+"Name: "+s.getSurName()+", "+s.getForeName()+"\n";
+		invoice+="";
 		return "";
 	}
 }
