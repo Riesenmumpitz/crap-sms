@@ -2,6 +2,8 @@ package com.crap.sms.domain.repository;
 
 import com.crap.sms.domain.model.User;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -11,7 +13,15 @@ public class UserRepository extends AbstractRepository{
 
     private static UserRepository userRepository = new UserRepository();
 
-    private UserRepository() {}
+    private UserRepository() {
+        try {
+            File file = new File("User.txt");
+            file.createNewFile();
+        }
+        catch(IOException io) {
+            io.printStackTrace();
+        }
+    }
 
     public static UserRepository getInstance(){
         return userRepository;

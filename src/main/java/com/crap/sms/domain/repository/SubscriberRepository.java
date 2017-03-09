@@ -11,7 +11,9 @@ import java.util.List;
  */
 public class SubscriberRepository extends AbstractRepository{
 
-    public SubscriberRepository() {
+    private static SubscriberRepository subscriberRepository = new SubscriberRepository();
+
+    private SubscriberRepository() {
         try {
             File file = new File("Subscriber.txt");
             file.createNewFile();
@@ -19,6 +21,10 @@ public class SubscriberRepository extends AbstractRepository{
         catch(IOException io) {
             io.printStackTrace();
         }
+    }
+
+    public static SubscriberRepository getInstance(){
+        return subscriberRepository;
     }
 
     public boolean save(Subscriber subscriber) {

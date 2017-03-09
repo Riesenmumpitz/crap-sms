@@ -11,17 +11,20 @@ import java.io.IOException;
  */
 public class SessionRepository extends AbstractRepository{
 
-    public SessionRepository() {
+    private static SessionRepository sessionRepository = new SessionRepository();
+
+    private SessionRepository() {
         try {
             File file = new File("Session.txt");
-            if(file.createNewFile())
-                System.out.println("Session file successfully created");
-            else
-                System.out.println("Did not create Session file. File already exists");
+            file.createNewFile();
         }
         catch(IOException io) {
             io.printStackTrace();
         }
+    }
+
+    public static SessionRepository getInstance(){
+        return sessionRepository;
     }
 
     public boolean save(Session session) {
