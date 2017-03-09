@@ -32,7 +32,7 @@ public class UserRepository extends AbstractRepository{
     }
 
     public User getByUsername(String username) {
-        return new User();
+        return null;
     }
 
     public List<User> getAll() {

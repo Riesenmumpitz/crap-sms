@@ -32,7 +32,7 @@ public class SessionRepository extends AbstractRepository{
     }
 
     public Session getBySubscriber(Subscriber subscriber) {
-        return new Session();
+        return null;
     }
 
     public boolean delete(Session session) {
