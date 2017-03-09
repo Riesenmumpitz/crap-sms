@@ -9,6 +9,14 @@ import java.util.List;
  */
 public class UserRepository extends AbstractRepository{
 
+    private static UserRepository userRepository = new UserRepository();
+
+    private UserRepository() {}
+
+    public static UserRepository getInstance(){
+        return userRepository;
+    }
+
     public boolean save(User user) {
         return true;
     }
