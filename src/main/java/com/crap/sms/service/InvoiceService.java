@@ -11,18 +11,18 @@ public class InvoiceService {
 	private List<Subscriber> subscribers;
 
 	public InvoiceService() {
-		//fetch all users from data storage
+		//fetch all subscribers from data storage
 		sr = SubscriberRepository.getInstance();
 		subscribers = sr.getAll();
 	}
 /**
- * Method to get Invoice for all users
+ * Method to get Invoice for all subscribers
  * @return String 
  */
 	public String work(){
 		String invoice = "INVOICE\n";
 		for(Subscriber s : subscribers){
-			//add the invoice for each user
+			//add the invoice for each subscriber
 			invoice+=getSubscriberInvoice(s);
 			//reset the used data volume and minutes
 			s.setDataVolume(0);
@@ -37,11 +37,10 @@ public class InvoiceService {
 	 * 
 	 * @param usedMin
 	 * @param sub
-	 * @return total charge for the user
+	 * @return total charge for subscriber
 	 */
 	private double getCharge(int usedMin, Subscription sub){
 		double charge = 0;
-		
 		// add basic fee
 		charge += sub.getBasicFee();
 		//charged used extra minutes
