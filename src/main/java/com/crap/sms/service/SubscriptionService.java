@@ -1,38 +1,30 @@
 package com.crap.sms.service;
 
 import com.crap.sms.domain.model.Subscription;
+import com.crap.sms.domain.repository.SubscriptionRepository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Martin Geßenich on 10.03.2017.
  */
 public class SubscriptionService {
-	private static Map<String, Subscription> subscriptions = new HashMap<String, Subscription>();
-	// GreenMobileS, GreenMobileM, GreenMobileL
 
-	public static Set<String> getSubscriptionTypes() {
-		return subscriptions.keySet();
+	public static ArrayList<String> getSubscriptionTypes() {
+		ArrayList<String> ret = new ArrayList<String>();
+		List<Subscription> all = SubscriptionRepository.getInstance().getAll();
+		for (Subscription s : all) {
+			ret.add(s.getUniqueName());
+		}
+		return ret;
 	}
 
 	public static String[] getSubscriptionTypesArray() {
-		Set<String> set = getSubscriptionTypes();
-		String[] result = new String[set.size()];
-		int i = 0;
-		for (String string : set) {
-			result[i] = string;
-			i++;
-		}
-		return result;
+		ArrayList<String> subscriptionTypes = getSubscriptionTypes();
+		return subscriptionTypes.toArray(new String[0]);
 	}
 
-	public static boolean addSubscription(String name, Subscription sub) {
-		if (subscriptions.containsKey(name)) {
-			return false;
-		}
-		subscriptions.put(name, sub);
-		return true;
+	public static boolean addSubscription(Subscription subscription) {
+		return SubscriptionRepository.getInstance().save(subscription);
 	}
 }
