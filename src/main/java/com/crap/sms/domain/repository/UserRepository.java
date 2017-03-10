@@ -12,13 +12,12 @@ import java.util.List;
  */
 public class UserRepository extends AbstractRepository{
 
-    private final String storage = "User.txt";
-
     private static UserRepository userRepository = new UserRepository();
 
     private UserRepository() {
+        super("User.txt");
         try {
-            File file = new File(storage);
+            File file = new File(super.storage);
             file.createNewFile();
         }
         catch(IOException io) {
@@ -35,7 +34,7 @@ public class UserRepository extends AbstractRepository{
     }
 
     public User getByUsername(String username) {
-        List<Object> objects = getAllIntern();
+        List<Object> objects = super.getAllIntern();
         for(Object o : objects) {
             User user = (User)o;
             if(user.getUserName().equals(username)) {

@@ -12,13 +12,12 @@ import java.util.List;
  */
 public class ConfigurationRepository extends AbstractRepository{
 
-    private final String storage = "Config.txt";
-
     private static ConfigurationRepository configurationRepository = new ConfigurationRepository();
 
     private ConfigurationRepository() {
+        super("Config.txt");
         try {
-            File file = new File(storage);
+            File file = new File(super.storage);
             file.createNewFile();
         }
         catch(IOException io) {

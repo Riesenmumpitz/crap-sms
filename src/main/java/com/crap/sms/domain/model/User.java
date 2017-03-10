@@ -1,9 +1,11 @@
 package com.crap.sms.domain.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Martin Geßenich on 09.03.2017.
  */
-public class User {
+public class User implements Serializable{
     private String userName;
     private int passwordHash;
 

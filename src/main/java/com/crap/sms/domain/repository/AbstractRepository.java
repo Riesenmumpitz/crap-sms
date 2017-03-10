@@ -9,7 +9,12 @@ import java.util.Scanner;
  * Created by Martin Geßenich on 09.03.2017.
  */
 public abstract class AbstractRepository {
-    private String storage;
+
+    protected String storage;
+
+    public AbstractRepository(String storage) {
+        this.storage = storage;
+    }
 
     protected List<Object> getAllIntern() {
         ArrayList<Object> objects = new ArrayList<Object>();

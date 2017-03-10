@@ -11,13 +11,12 @@ import java.io.IOException;
  */
 public class SessionRepository extends AbstractRepository{
 
-    private final String storage = "Session.txt";
-
     private static SessionRepository sessionRepository = new SessionRepository();
 
     private SessionRepository() {
+        super("Session.txt");
         try {
-            File file = new File(storage);
+            File file = new File(super.storage);
             file.createNewFile();
         }
         catch(IOException io) {
