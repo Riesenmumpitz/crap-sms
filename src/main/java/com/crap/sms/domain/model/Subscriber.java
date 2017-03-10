@@ -13,6 +13,7 @@ public class Subscriber {
     private String surName;
     private Integer freeMinutes;
     private Integer dataVolume;
+    private Integer charge;
 
     public Subscriber(BigInteger IMSI, Terminal terminal, Subscription subscription, String foreName, String surName, Integer freeMinutes, Integer dataVolume) {
         this.IMSI = IMSI;
@@ -74,5 +75,12 @@ public class Subscriber {
 
     public void setDataVolume(Integer dataVolume) {
         this.dataVolume = dataVolume;
+    }
+    public Integer getCharge() {
+        return charge;
+    }
+
+    public void setCharge(Integer charge) {
+        this.charge = charge;
     }
 }

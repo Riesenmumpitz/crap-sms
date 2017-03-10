@@ -1,0 +1,12 @@
+Ende Donnerstag Protokoll
+Subscriber service
+	Add Subscriber
+	Remove Subscriber
+UI für add und remove Subscriber
+Login finalisieren
+Create new Session
+	Subscriber eingeben
+	Type eingeben
+	Duration eingeben
+Session Logik Service
+Schönere Subscriber Ausgabe
