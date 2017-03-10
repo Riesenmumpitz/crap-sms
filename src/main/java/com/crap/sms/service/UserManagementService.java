@@ -6,7 +6,7 @@ import com.crap.sms.domain.repository.UserRepository;
 /**
  * Created by Martin Geßenich on 09.03.2017.
  */
-public class UserManagement {
+public class UserManagementService {
 
     private static UserRepository userRepository = UserRepository.getInstance();
 
@@ -24,4 +24,5 @@ public class UserManagement {
     public static User findUser(String name) {
         return userRepository.getByUsername(name);
     }
+
 }

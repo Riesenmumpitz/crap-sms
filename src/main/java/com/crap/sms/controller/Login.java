@@ -3,7 +3,7 @@ package com.crap.sms.controller;
 import java.util.Scanner;
 
 import com.crap.sms.domain.model.User;
-import com.crap.sms.service.UserManagement;
+import com.crap.sms.service.UserManagementService;
 
 public class Login {
 	public static boolean login() {
@@ -34,7 +34,7 @@ public class Login {
 					String userName = sc.nextLine();
 					System.out.println("Please enter your password!");
 					int hashedPassword = (sc.nextLine()).hashCode();
-					User user = UserManagement.findUser(userName);
+					User user = UserManagementService.findUser(userName);
 					if (user == null || hashedPassword != user.getPasswordHash()) {
 						System.out.println("Access denied. Wrong name or password.");
 					} else {
@@ -54,7 +54,7 @@ public class Login {
 		while (!nameAvailable) {
 			System.out.println("Please enter a new user name!");
 			userName = sc.nextLine();
-			if (UserManagement.findUser(userName) != null) {
+			if (UserManagementService.findUser(userName) != null) {
 				System.out.println("User name not available.");
 			} else {
 				nameAvailable = true;
@@ -73,7 +73,7 @@ public class Login {
 				isCorrect = true;
 		}
 		int hashedPassword = password.hashCode();
-		if (UserManagement.createUser(userName, hashedPassword) == null)
+		if (UserManagementService.createUser(userName, hashedPassword) == null)
 			System.out.println("Creation of user failed for unknown reasons, please contact your admin!");
 		else
 			System.out.println("User successfully created.");

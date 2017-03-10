@@ -1,7 +1,3 @@
-Ende Donnerstag Protokoll
-Subscriber service
-	Add Subscriber
-	Remove Subscriber
 UI für add und remove Subscriber
 Login finalisieren
 Create new Session
@@ -10,3 +6,4 @@ Create new Session
 	Duration eingeben
 Session Logik Service
 Schönere Subscriber Ausgabe
+Validator
