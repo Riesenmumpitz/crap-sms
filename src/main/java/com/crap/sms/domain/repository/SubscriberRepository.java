@@ -4,6 +4,7 @@ import com.crap.sms.domain.model.Subscriber;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,15 +30,27 @@ public class SubscriberRepository extends AbstractRepository{
     }
 
     public boolean save(Subscriber subscriber) {
-        return true;
+        return super.save(subscriber);
     }
 
     public Subscriber getByImsi(String Imsi) {
+        List<Object> objects = super.getAllIntern();
+        for(Object o : objects) {
+            Subscriber subscriber = (Subscriber)o;
+            if(subscriber.getIMSI().equals(Imsi)) {
+                return subscriber;
+            }
+        }
         return null;
     }
 
     public List<Subscriber> getAll () {
-        return null;
+        List<Subscriber> subscribers = new ArrayList<Subscriber>();
+        List<Object> objects = super.getAllIntern();
+        for(Object o : objects) {
+            subscribers.add((Subscriber)o);
+        }
+        return subscribers;
     }
 
     public List<Subscriber> getAllBySubscription () {
@@ -45,6 +58,6 @@ public class SubscriberRepository extends AbstractRepository{
     }
 
     public boolean delete(Subscriber subscriber) {
-        return true;
+        return super.delete(subscriber);
     }
 }
