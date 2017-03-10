@@ -3,11 +3,9 @@ import com.crap.sms.domain.model.Subscriber;
 import com.crap.sms.domain.model.Subscription;
 import com.crap.sms.domain.model.Terminal;
 import com.crap.sms.domain.repository.SubscriberRepository;
-import com.crap.sms.domain.repository.UserRepository;
 import junit.framework.TestCase;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,10 +19,10 @@ public class SubscriberRepositoryTest extends TestCase {
         ran.add(RAN.G3);
         Terminal terminal = new Terminal(ran);
         Subscription subscription = new Subscription(100,100,2,20);
-        Subscriber subscriber = new Subscriber("1234567890",terminal,subscription,"Test","Tester");
+        Subscriber subscriber = new Subscriber("123456789012345",terminal,subscription,"Test","Tester");
         SubscriberRepository subscriberRepository = SubscriberRepository.getInstance();
         subscriberRepository.save(subscriber);
-        Subscriber subscriber2 = subscriberRepository.getByImsi("1234567890");
+        Subscriber subscriber2 = subscriberRepository.getByImsi("123456789012345");
         assertTrue(subscriber.equals(subscriber2));
     }
 }
