@@ -21,23 +21,10 @@ public class SubscriberStringHelper {
 	}
 
 	private static String getSubscriptionString(Subscription subscription) {
-		switch (subscription) {
-		case GreenMobileS:
-			return "GreenMobile S";
-		case GreenMobileM:
-			return "GreenMobile M";
-		case GreenMobileL:
-			return "GreenMobile L";
-		default:
-			return "undefined Subscription";
-		}
+		return "undefined Subscription";
 	}
 
 	private static String getTerminalString(Terminal terminal) {
-		switch (terminal) {
-		// TODO Terminals nachtragen
-		default:
-			return "undefined Terminal";
-		}
+		return "undefined Terminal";
 	}
 }
