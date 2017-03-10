@@ -6,7 +6,7 @@ import java.math.BigInteger;
  * Created by Martin Geßenich on 09.03.2017.
  */
 public class Subscriber {
-    private BigInteger IMSI;
+    private String IMSI;
     private Terminal terminal;
     private Subscription subscription;
     private String foreName;
@@ -14,7 +14,7 @@ public class Subscriber {
     private Integer usedMinutes;
     private Integer dataVolume;
 
-    private Subscriber(BigInteger IMSI, Terminal terminal, Subscription subscription, String foreName, String surName, Integer usedMinutes, Integer dataVolume) {
+    private Subscriber(String IMSI, Terminal terminal, Subscription subscription, String foreName, String surName, Integer usedMinutes, Integer dataVolume) {
         this.IMSI = IMSI;
         this.terminal = terminal;
         this.subscription = subscription;
@@ -24,11 +24,11 @@ public class Subscriber {
         this.dataVolume = dataVolume;
     }
 
-    public Subscriber (BigInteger IMSI, Terminal terminal, Subscription subscription, String foreName, String surName){
+    public Subscriber (String IMSI, Terminal terminal, Subscription subscription, String foreName, String surName){
         this(IMSI, terminal, subscription, foreName, surName, 0, 0);
     }
 
-    public BigInteger getIMSI() {
+    public String getIMSI() {
         return IMSI;
     }
 
