@@ -11,7 +11,7 @@ public class Subscriber {
     private Subscription subscription;
     private String foreName;
     private String surName;
-    private Integer freeMinutes;
+    private Integer usedMinutes;
     private Integer dataVolume;
     private Integer charge;
 
@@ -21,7 +21,7 @@ public class Subscriber {
         this.subscription = subscription;
         this.foreName = foreName;
         this.surName = surName;
-        this.freeMinutes = freeMinutes;
+        this.usedMinutes = freeMinutes;
         this.dataVolume = dataVolume;
     }
 
@@ -61,12 +61,12 @@ public class Subscriber {
         this.surName = surName;
     }
 
-    public Integer getFreeMinutes() {
-        return freeMinutes;
+    public Integer getUsedMinutes() {
+        return usedMinutes;
     }
 
-    public void setFreeMinutes(Integer freeMinutes) {
-        this.freeMinutes = freeMinutes;
+    public void setUsedMinutes(Integer usedMinutes) {
+        this.usedMinutes = usedMinutes;
     }
 
     public Integer getDataVolume() {
