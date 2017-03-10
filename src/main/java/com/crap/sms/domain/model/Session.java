@@ -1,4 +1,6 @@
 package com.crap.sms.domain.model;
 
-public class Session {
+import java.io.Serializable;
+
+public class Session implements Serializable {
 }
