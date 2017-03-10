@@ -1,4 +1,4 @@
-package com.crap.sms.controllers;
+package com.crap.sms.controller;
 
 import java.util.Scanner;
 

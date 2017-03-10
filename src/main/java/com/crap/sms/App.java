@@ -1,7 +1,7 @@
 package com.crap.sms;
 
-import com.crap.sms.controllers.Login;
-import com.crap.sms.controllers.UI;
+import com.crap.sms.controller.Login;
+import com.crap.sms.controller.UI;
 
 public class App
 {
