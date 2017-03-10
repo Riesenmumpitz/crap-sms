@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import com.crap.sms.domain.model.Subscriber;
 import com.crap.sms.domain.repository.SubscriberRepository;
-import com.crap.sms.service.Invoice;
+import com.crap.sms.service.InvoiceService;
 
 public class UI {
 
@@ -91,8 +91,8 @@ public class UI {
 	}
 
 	private void createInvoices() {
-		Invoice invoice = new Invoice();
-		System.out.println(invoice.work());
+		InvoiceService invoiceService = new InvoiceService();
+		System.out.println(invoiceService.work());
 	}
 
 	private void createNewSession() {
