@@ -27,7 +27,20 @@ public class TerminalService {
         return subscriptionTypes.toArray(new String[0]);
     }
 
-    public static boolean addTerminal(Terminal terminal) {
+    public static boolean saveTerminal(Terminal terminal) {
+        //TODO validate
         return terminalRepository.save(terminal);
+    }
+
+    public static Terminal getTerminal(String name) {
+        return terminalRepository.getByUniqueName(name);
+    }
+
+    public static boolean removeTerminal(Terminal terminal) {
+        return terminalRepository.delete(terminal);
+    }
+
+    public static List<Terminal> getAllTerminals() {
+        return terminalRepository.getAll();
     }
 }

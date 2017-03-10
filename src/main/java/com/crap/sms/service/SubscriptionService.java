@@ -26,7 +26,20 @@ public class SubscriptionService {
 		return subscriptionTypes.toArray(new String[0]);
 	}
 
-	public static boolean addSubscription(Subscription subscription) {
+	public static boolean saveSubscription(Subscription subscription) {
+		//TODO validate
 		return subscriptionRepository.save(subscription);
+	}
+
+	public static Subscription getSubscription(String name) {
+		return subscriptionRepository.getByUniqueName(name);
+	}
+
+	public static boolean removeSubscription(Subscription subscription) {
+		return subscriptionRepository.delete(subscription);
+	}
+
+	public static List<Subscription> getAllSubscription() {
+		return subscriptionRepository.getAll();
 	}
 }
