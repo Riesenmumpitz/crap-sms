@@ -20,7 +20,7 @@ public class Login {
 		boolean active = true;
 		while (active) {
 			System.out.println("What do you want to do next?\n" + " (0) end Application\n" + " (1) add a new user\n"
-					+ " (2) login\n");
+					+ " (2) login to you user account\n");
 			String input = sc.nextLine();
 			if (!input.equals("0") && !input.equals("1") && !input.equals("2"))
 				System.out.println("Input not valid");
@@ -35,11 +35,11 @@ public class Login {
 					System.out.println("Please enter your password!");
 					int hashedPassword = (sc.nextLine()).hashCode();
 					User user = UserManagement.findUser(userName);
-					if (hashedPassword == user.getPasswordHash()) {
+					if (user == null || hashedPassword != user.getPasswordHash()) {
+						System.out.println("Access denied. Wrong name or password.");
+					} else {
 						System.out.println("Access granted. Welcome, " + userName);
 						return true;
-					} else {
-						System.out.println("Access denied. Wrong name or password.");
 					}
 				}
 			}
@@ -49,11 +49,34 @@ public class Login {
 
 	public static void createNewUser() {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Please enter a new user name!");
-		String userName = sc.nextLine();
-		if (UserManagement.findUser(userName) != null) {
-			System.out.println("User name not available.");
+		boolean nameAvailable = false;
+		String userName = "";
+		while (!nameAvailable) {
+			System.out.println("Please enter a new user name!");
+			userName = sc.nextLine();
+			if (UserManagement.findUser(userName) != null) {
+				System.out.println("User name not available.");
+			} else {
+				nameAvailable = true;
+			}
 		}
+		boolean isCorrect = false;
+		String password = "";
+		while (!isCorrect) {
+			System.out.println("Please enter a password! It should have between 8 and 32 characters.");
+			password = sc.nextLine();
+			if (password.length() < 8)
+				System.out.println("Your password is to short, you have to do it again.");
+			else if (password.length() > 32)
+				System.out.println("Your password is to long, you have to do it again.");
+			else
+				isCorrect = true;
+		}
+		int hashedPassword = password.hashCode();
+		if (UserManagement.createUser(userName, hashedPassword) == null)
+			System.out.println("Creation of user failed for unknown reasons, please contact your admin!");
+		else
+			System.out.println("User successfully created.");
 	}
 
 	public static void setNewMasterpassword() {
