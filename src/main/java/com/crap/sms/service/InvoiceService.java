@@ -42,26 +42,11 @@ public class InvoiceService {
 	private double getCharge(int usedMin, Subscription sub){
 		double charge = 0;
 		
-		
-		switch(sub){
-		case GreenMobileS:
-			charge+=8;
-			charge+=0.08*usedMin;
-			break;
-		case GreenMobileM:
-			charge+=22;
-			//check free minutes
-			if(usedMin>100){
-				charge+= 0.06*(usedMin-100);
-			}
-			break;
-		case GreenMobileL:
-			charge+=42;
-			//check free minutes
-			if(usedMin>150){
-				charge+= 0.04*(usedMin-150);
-			}
-			break;
+		// add basic fee
+		charge += sub.getBasicFee();
+		//charged used extra minutes
+		if(usedMin>sub.getFreeMinutes()){
+			charge+=sub.getCostPerExtraMinute()*(usedMin-sub.getFreeMinutes());
 		}
 		return charge;
 	}
