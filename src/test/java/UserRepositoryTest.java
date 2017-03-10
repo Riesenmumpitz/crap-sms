@@ -14,4 +14,13 @@ public class UserRepositoryTest extends TestCase {
         User user2 = userRepository.getByUsername("test");
         assertTrue(user.equals(user2));
     }
+
+    public void testDelete() {
+        User user = new User("test2",1234567);
+        UserRepository userRepository = UserRepository.getInstance();
+        userRepository.save(user);
+        userRepository.delete(user);
+        User user2 = userRepository.getByUsername("test2");
+        assertNull(user2);
+    }
 }
