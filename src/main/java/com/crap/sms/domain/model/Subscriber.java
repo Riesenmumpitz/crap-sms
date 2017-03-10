@@ -13,16 +13,19 @@ public class Subscriber {
     private String surName;
     private Integer usedMinutes;
     private Integer dataVolume;
-    private Integer charge;
 
-    public Subscriber(BigInteger IMSI, Terminal terminal, Subscription subscription, String foreName, String surName, Integer freeMinutes, Integer dataVolume) {
+    private Subscriber(BigInteger IMSI, Terminal terminal, Subscription subscription, String foreName, String surName, Integer usedMinutes, Integer dataVolume) {
         this.IMSI = IMSI;
         this.terminal = terminal;
         this.subscription = subscription;
         this.foreName = foreName;
         this.surName = surName;
-        this.usedMinutes = freeMinutes;
+        this.usedMinutes = usedMinutes;
         this.dataVolume = dataVolume;
+    }
+
+    public Subscriber (BigInteger IMSI, Terminal terminal, Subscription subscription, String foreName, String surName){
+        this(IMSI, terminal, subscription, foreName, surName, 0, 0);
     }
 
     public BigInteger getIMSI() {
@@ -75,12 +78,5 @@ public class Subscriber {
 
     public void setDataVolume(Integer dataVolume) {
         this.dataVolume = dataVolume;
-    }
-    public Integer getCharge() {
-        return charge;
-    }
-
-    public void setCharge(Integer charge) {
-        this.charge = charge;
     }
 }
