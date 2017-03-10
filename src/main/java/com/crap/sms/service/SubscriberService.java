@@ -14,7 +14,7 @@ public class SubscriberService {
 
     public static Subscriber addSubscriber(String imsi, Terminal terminal, Subscription subscription,
                                     String foreName, String surName) {
-        Subscriber sub = new Subscriber(imsi, terminal, subscription, foreName, surName);
+        Subscriber sub = new Subscriber(imsi, terminal.getUniqueName(), subscription.getUniqueName(), foreName, surName);
         if (subscriberRepository.save(sub)) {
             return sub;
         }

@@ -8,14 +8,14 @@ import java.math.BigInteger;
  */
 public class Subscriber implements Serializable {
     private String IMSI;
-    private Terminal terminal;
-    private Subscription subscription;
+    private String terminal;
+    private String subscription;
     private String foreName;
     private String surName;
     private Integer usedMinutes;
     private Integer dataVolume;
 
-    private Subscriber(String IMSI, Terminal terminal, Subscription subscription, String foreName, String surName, Integer usedMinutes, Integer dataVolume) {
+    private Subscriber(String IMSI, String terminal, String subscription, String foreName, String surName, Integer usedMinutes, Integer dataVolume) {
         this.IMSI = IMSI;
         this.terminal = terminal;
         this.subscription = subscription;
@@ -25,7 +25,7 @@ public class Subscriber implements Serializable {
         this.dataVolume = dataVolume;
     }
 
-    public Subscriber (String IMSI, Terminal terminal, Subscription subscription, String foreName, String surName){
+    public Subscriber (String IMSI, String terminal, String subscription, String foreName, String surName){
         this(IMSI, terminal, subscription, foreName, surName, 0, 0);
     }
 
@@ -33,19 +33,19 @@ public class Subscriber implements Serializable {
         return IMSI;
     }
 
-    public Terminal getTerminal() {
+    public String getTerminal() {
         return terminal;
     }
 
-    public void setTerminal(Terminal terminal) {
+    public void setTerminal(String terminal) {
         this.terminal = terminal;
     }
 
-    public Subscription getSubscription() {
+    public String getSubscription() {
         return subscription;
     }
 
-    public void setSubscription(Subscription subscription) {
+    public void setSubscription(String subscription) {
         this.subscription = subscription;
     }
 

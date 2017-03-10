@@ -5,6 +5,7 @@ import java.util.List;
 import com.crap.sms.domain.model.Subscriber;
 import com.crap.sms.domain.model.Subscription;
 import com.crap.sms.domain.repository.SubscriberRepository;
+import com.crap.sms.domain.repository.SubscriptionRepository;
 
 public class InvoiceService {
 	private SubscriberRepository sr;
@@ -60,7 +61,8 @@ public class InvoiceService {
 		invoice+="\n"+"Name: "+s.getSurName()+", "+s.getForeName()+"\n";
 		invoice+="Consumed data volume: "+s.getDataVolume()+"\n";
 		invoice+="Consumed minutes: "+s.getUsedMinutes()+"\n";
-		invoice+="Total charges: "+getCharge(s.getUsedMinutes(), s.getSubscription())+"\n\n";
+
+		invoice+="Total charges: "+getCharge(s.getUsedMinutes(), SubscriptionRepository.getInstance().getByUniqueName(s.getSubscription()))+"\n\n";
 		return invoice;
 	}
 }

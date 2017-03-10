@@ -14,12 +14,7 @@ import java.util.Set;
 public class SubscriberRepositoryTest extends TestCase {
 
     public void testSave() {
-        Set<RAN> ran = new HashSet<RAN>();
-        ran.add(RAN.G2);
-        ran.add(RAN.G3);
-        Terminal terminal = new Terminal(ran);
-        Subscription subscription = new Subscription(100,100,2,20);
-        Subscriber subscriber = new Subscriber("123456789012345",terminal,subscription,"Test","Tester");
+        Subscriber subscriber = new Subscriber("123456789012345","bla","bla","Test","Tester");
         SubscriberRepository subscriberRepository = SubscriberRepository.getInstance();
         subscriberRepository.save(subscriber);
         Subscriber subscriber2 = subscriberRepository.getByImsi("123456789012345");
@@ -27,12 +22,7 @@ public class SubscriberRepositoryTest extends TestCase {
     }
 
     public void testChangeValue() {
-        Set<RAN> ran = new HashSet<RAN>();
-        ran.add(RAN.G2);
-        ran.add(RAN.G3);
-        Terminal terminal = new Terminal(ran);
-        Subscription subscription = new Subscription(100,100,2,20);
-        Subscriber subscriber = new Subscriber("123456789012346",terminal,subscription,"Test","Tester");
+        Subscriber subscriber = new Subscriber("123456789012346","bla","bla","Test","Tester");
         SubscriberRepository subscriberRepository = SubscriberRepository.getInstance();
         subscriberRepository.save(subscriber);
         subscriber.setForeName("NeuerTest");

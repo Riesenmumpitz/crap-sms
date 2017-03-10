@@ -42,11 +42,11 @@ public class SubscriberRepository extends AbstractRepository{
         return super.save(subscriber);
     }
 
-    public Subscriber getByImsi(String Imsi) {
+    public Subscriber getByImsi(String imsi) {
         List<Object> objects = super.getAllIntern();
         for(Object o : objects) {
             Subscriber subscriber = (Subscriber)o;
-            if(subscriber.getIMSI().equals(Imsi)) {
+            if(subscriber.getIMSI().equals(imsi)) {
                 return subscriber;
             }
         }

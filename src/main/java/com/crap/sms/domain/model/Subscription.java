@@ -7,12 +7,14 @@ import java.io.Serializable;
  */
 public class Subscription implements Serializable{
 
+	private String uniqueName;
 	private int freeMinutes;
 	private int dataVolume;
 	private int costPerExtraMinute;
 	private int basicFee;
 
-	public Subscription(int freeMinutes, int dataVolume, int costPerExtraMinute, int basicFee) {
+	public Subscription(String uniqueName, int freeMinutes, int dataVolume, int costPerExtraMinute, int basicFee) {
+		this.uniqueName = uniqueName;
 		this.freeMinutes = freeMinutes;
 		this.dataVolume = dataVolume;
 		this.costPerExtraMinute = costPerExtraMinute;
@@ -33,6 +35,10 @@ public class Subscription implements Serializable{
 
 	public int getBasicFee() {
 		return basicFee;
+	}
+
+	public String getUniqueName() {
+		return uniqueName;
 	}
 
 	@Override
