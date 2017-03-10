@@ -10,9 +10,11 @@ import java.util.*;
  */
 public class SubscriptionService {
 
+	private static SubscriptionRepository subscriptionRepository = SubscriptionRepository.getInstance();
+
 	public static ArrayList<String> getSubscriptionTypes() {
 		ArrayList<String> ret = new ArrayList<String>();
-		List<Subscription> all = SubscriptionRepository.getInstance().getAll();
+		List<Subscription> all = subscriptionRepository.getAll();
 		for (Subscription s : all) {
 			ret.add(s.getUniqueName());
 		}
@@ -25,6 +27,6 @@ public class SubscriptionService {
 	}
 
 	public static boolean addSubscription(Subscription subscription) {
-		return SubscriptionRepository.getInstance().save(subscription);
+		return subscriptionRepository.save(subscription);
 	}
 }

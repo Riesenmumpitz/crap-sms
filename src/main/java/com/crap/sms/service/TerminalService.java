@@ -11,9 +11,11 @@ import java.util.List;
  */
 public class TerminalService {
 
+    private static TerminalRepository terminalRepository = TerminalRepository.getInstance();
+
     public static ArrayList<String> getTerminalTypes() {
         ArrayList<String> ret = new ArrayList<String>();
-        List<Terminal> all = TerminalRepository.getInstance().getAll();
+        List<Terminal> all = terminalRepository.getAll();
         for (Terminal t : all) {
             ret.add(t.getUniqueName());
         }
@@ -26,6 +28,6 @@ public class TerminalService {
     }
 
     public static boolean addTerminal(Terminal terminal) {
-        return TerminalRepository.getInstance().save(terminal);
+        return terminalRepository.save(terminal);
     }
 }
