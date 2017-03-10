@@ -31,6 +31,7 @@ public class SessionRepository extends AbstractRepository{
     }
 
     public boolean save(Session session) {
+        //TODO delete old session
         return super.save(session);
     }
 

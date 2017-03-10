@@ -30,6 +30,15 @@ public class SubscriberRepository extends AbstractRepository{
     }
 
     public boolean save(Subscriber subscriber) {
+        List<Object> objects = super.getAllIntern();
+        for(Object o : objects) {
+            Subscriber subscriberAlt = (Subscriber)o;
+            if(subscriber.getIMSI().equals(subscriberAlt.getIMSI())) {
+                if(!super.delete(subscriberAlt)) {
+                    return false;
+                }
+            }
+        }
         return super.save(subscriber);
     }
 

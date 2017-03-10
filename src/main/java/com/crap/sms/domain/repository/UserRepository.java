@@ -30,6 +30,15 @@ public class UserRepository extends AbstractRepository{
     }
 
     public boolean save(User user) {
+        List<Object> objects = super.getAllIntern();
+        for(Object o : objects) {
+            User userAlt = (User)o;
+            if(user.getUserName().equals(userAlt.getUserName())) {
+                if (!super.delete(userAlt)) {
+                    return false;
+                }
+            }
+        }
         return super.save(user);
     }
 

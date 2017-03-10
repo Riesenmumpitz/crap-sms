@@ -30,8 +30,40 @@ public class ConfigurationRepository extends AbstractRepository{
     }
 
     public String getConfig(Configuration config) {
-        return "";
+        List<Object> objects = super.getAllIntern();
+        for(Object o : objects) {
+            String[] conf = (String[])o;
+            if(conf[0].equals(config.name())) {
+                return conf[1];
+            }
+        }
+        return null;
     }
 
-    public boolean setConfig(Configuration config, String value) { return true; }
+    public boolean setConfig(Configuration config, String value) {
+        List<Object> objects = super.getAllIntern();
+        for(Object o : objects) {
+            String[] conf = (String[])o;
+            if(conf[0].equals(config.name())) {
+                if(!super.delete(conf)) {
+                    return false;
+                }
+            }
+        }
+        String[] a = new String[2];
+        a[0] = config.name();
+        a[1] = value;
+        return super.save(a);
+    }
+
+    public boolean deleteConfig(Configuration config) {
+        List<Object> objects = super.getAllIntern();
+        for(Object o : objects) {
+            String[] conf = (String[])o;
+            if(conf[0].equals(config.name())) {
+                return super.delete(conf);
+            }
+        }
+        return false;
+    }
 }
