@@ -25,4 +25,19 @@ public class SubscriberRepositoryTest extends TestCase {
         Subscriber subscriber2 = subscriberRepository.getByImsi("123456789012345");
         assertTrue(subscriber.equals(subscriber2));
     }
+
+    public void testChangeValue() {
+        Set<RAN> ran = new HashSet<RAN>();
+        ran.add(RAN.G2);
+        ran.add(RAN.G3);
+        Terminal terminal = new Terminal(ran);
+        Subscription subscription = new Subscription(100,100,2,20);
+        Subscriber subscriber = new Subscriber("123456789012346",terminal,subscription,"Test","Tester");
+        SubscriberRepository subscriberRepository = SubscriberRepository.getInstance();
+        subscriberRepository.save(subscriber);
+        subscriber.setForeName("NeuerTest");
+        subscriberRepository.save(subscriber);
+        Subscriber subscriber2 = subscriberRepository.getByImsi("123456789012346");
+        assertTrue(subscriber2.getForeName().equals("NeuerTest"));
+    }
 }
