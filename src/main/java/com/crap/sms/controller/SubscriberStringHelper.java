@@ -9,6 +9,10 @@ import com.crap.sms.domain.model.Terminal;
 public class SubscriberStringHelper {
 
 	public static String formatSubscribers(List<Subscriber> subscribers) {
+		if ((subscribers == null) || (subscribers.isEmpty())) {
+			return "There are no subscribers in the system.";
+		}
+			
 		StringBuilder result = new StringBuilder();
 		for (Subscriber subscriber : subscribers) {
 			result.append(subscriber.getForeName()).append(" ").append(subscriber.getSurName()).append(" (");

@@ -10,9 +10,9 @@ import com.crap.sms.domain.repository.SubscriberRepository;
  */
 public class SubscriberService {
 
-    private SubscriberRepository subscriberRepository = SubscriberRepository.getInstance();
+    private static SubscriberRepository subscriberRepository = SubscriberRepository.getInstance();
 
-    public Subscriber addSubscriber(String imsi, Terminal terminal, Subscription subscription,
+    public static Subscriber addSubscriber(String imsi, Terminal terminal, Subscription subscription,
                                     String foreName, String surName) {
         Subscriber sub = new Subscriber(imsi, terminal, subscription, foreName, surName);
         if (subscriberRepository.save(sub)) {
@@ -21,11 +21,11 @@ public class SubscriberService {
         return null;
     }
 
-    public Subscriber findSubscriberBy(String imsi) {
+    public static Subscriber findSubscriberBy(String imsi) {
         return subscriberRepository.getByImsi(imsi);
     }
 
-    public boolean removeSubScriber(Subscriber subscriber) {
+    public static boolean removeSubScriber(Subscriber subscriber) {
         return subscriberRepository.delete(subscriber);
     }
 }
