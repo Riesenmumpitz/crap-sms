@@ -14,7 +14,7 @@ public class Login {
 		// handle login or creation of users
 		Scanner sc = new Scanner(System.in);
 
-		if (ConfigurationRepository.getInstance().getConfig(Configuration.MASTERPASSWORD) == "") {
+		if (ConfigurationRepository.getInstance().getConfig(Configuration.MASTERPASSWORD) == null) {
 			setNewMasterpassword();
 		} else {
 			boolean isCorrect = false;
