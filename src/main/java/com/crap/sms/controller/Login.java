@@ -44,8 +44,10 @@ public class Login {
 			if (!input.equals("0") && !input.equals("1") && !input.equals("2"))
 				System.out.println("Input not valid");
 			else {
-				if (input.equals("0"))
+				if (input.equals("0")) {
+					System.out.println("Terminating.");
 					active = false;
+				}
 				if (input.equals("1"))
 					createNewUser();
 				if (input.equals("2")) {
