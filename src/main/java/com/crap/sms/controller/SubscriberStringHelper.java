@@ -12,7 +12,7 @@ public class SubscriberStringHelper {
 
 	public static String formatSubscribers(List<Subscriber> subscribers) {
 		if ((subscribers == null) || (subscribers.isEmpty())) {
-			return "There are no subscribers in the system.";
+			return "There are no subscribers in the system.\n";
 		}
 			
 		StringBuilder result = new StringBuilder();

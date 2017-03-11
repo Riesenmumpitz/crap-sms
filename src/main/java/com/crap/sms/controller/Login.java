@@ -20,8 +20,7 @@ public class Login {
 			boolean isCorrect = false;
 			int wrongTries = 0;
 			while (!isCorrect) {
-				System.out.println("Please enter the master password!");
-				String hashedMasterPassword = "" + (sc.nextLine()).hashCode();
+				String hashedMasterPassword = readInvisible("Please enter the master password!").hashCode() + "";
 				if (hashedMasterPassword
 						.equals(ConfigurationRepository.getInstance().getConfig(Configuration.MASTERPASSWORD))) {
 					isCorrect = true;
@@ -53,19 +52,22 @@ public class Login {
 				if (input.equals("2")) {
 					System.out.println("Please enter your user name!");
 					String userName = sc.nextLine();
-					System.out.println("Please enter your password!");
-					int hashedPassword = (sc.nextLine()).hashCode();
+					int hashedPassword = readInvisible("Please enter your password!").hashCode();
 					User user = UserManagementService.findUser(userName);
 					if (user == null || hashedPassword != user.getPasswordHash()) {
 						System.out.println("Access denied. Wrong name or password.");
 					} else {
-						System.out.println("Access granted. Welcome, " + userName);
+						System.out.println("Access granted. Welcome, " + userName + "!");
 						return true;
 					}
 				}
 			}
 		}
 		return false;
+	}
+
+	private static String readInvisible(String message) {
+		return String.copyValueOf(System.console().readPassword(message));
 	}
 
 	public static void createNewUser() {
@@ -84,14 +86,19 @@ public class Login {
 		boolean isCorrect = false;
 		String password = "";
 		while (!isCorrect) {
-			System.out.println("Please enter a password! It should have between 8 and 32 characters.");
-			password = sc.nextLine();
+			password = readInvisible("Please enter a password! It should have between 8 and 32 characters.");
 			if (password.length() < 8)
 				System.out.println("Your password is to short, you have to do it again.");
 			else if (password.length() > 32)
 				System.out.println("Your password is to long, you have to do it again.");
-			else
-				isCorrect = true;
+			else {
+				String confirm = readInvisible("Please confirm your password!");
+				if (confirm.equals(password)) {
+					isCorrect = true;
+				} else {
+					System.out.println("The passwords do not match!");
+				}
+			}
 		}
 		int hashedPassword = password.hashCode();
 		if (UserManagementService.createUser(userName, hashedPassword) == null)
@@ -101,19 +108,24 @@ public class Login {
 	}
 
 	public static void setNewMasterpassword() {
-		Scanner sc = new Scanner(System.in);
 		String newMasterPassword = null;
 		boolean isCorrect = false;
 		while (!isCorrect) {
-			System.out.println("Please set a master password! It should have between 8 and 32 characters.");
-			newMasterPassword = sc.nextLine();
+			newMasterPassword = readInvisible(
+					"Please set a master password! It should have between 8 and 32 characters.");
 
 			if (newMasterPassword.length() < 8)
 				System.out.println("Your password is to short, you have to do it again.");
 			else if (newMasterPassword.length() > 32)
 				System.out.println("Your password is to long, you have to do it again.");
-			else
-				isCorrect = true;
+			else {
+				String confirm = readInvisible("Please confirm your master password!");
+				if (confirm.equals(newMasterPassword)) {
+					isCorrect = true;
+				} else {
+					System.out.println("The passwords do not match!");
+				}
+			}
 		}
 		String hashedMasterPassword = "" + newMasterPassword.hashCode();
 		ConfigurationRepository configRepository = ConfigurationRepository.getInstance();
