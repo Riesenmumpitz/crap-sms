@@ -9,38 +9,37 @@ import com.crap.sms.domain.model.Subscriber;
  */
 public class SessionService {
 
-    public Session createPhoneSession(int seconds) {
-        if (!(seconds >= 0 && seconds < Integer.MAX_VALUE)) {
-            return null;
-        }
-        return new Session(seconds);
-    }
+	public Session createPhoneSession(int seconds) {
+		if (!(seconds >= 0 && seconds < Integer.MAX_VALUE)) {
+			return null;
+		}
+		return new Session(seconds);
+	}
 
-    public Session createDataSession(int seconds, RAN conection) {
-        if (!(seconds >= 0 && seconds < Integer.MAX_VALUE) || conection == null) {
-            return null;
-        }
-        return new Session(seconds, conection, generateRandomConnectionRate());
-    }
+	public Session createDataSession(int seconds, RAN conection) {
+		if (!(seconds >= 0 && seconds < Integer.MAX_VALUE) || conection == null) {
+			return null;
+		}
+		return new Session(seconds, conection, generateRandomConnectionRate());
+	}
 
-    private double generateRandomConnectionRate() {
-        switch ((int) Math.random() * 4) {
-            case 0:
-                return 0;
-            break;
-            case 1:
-                return .1;
-            break;
-            case 2:
-                return .25;
-            break;
-            case 3:
-                return .5;
-            break;
-        }
-    }
+	private double generateRandomConnectionRate() {
+		switch ((int) Math.random() * 4) {
+		case 0:
+			return 0;
+		case 1:
+			return .1;
+		case 2:
+			return .25;
+		case 3:
+			return .5;
+		default:
+			return 42;
+		}
 
-    public boolean bookSession(Subscriber sub, Session session) {
+	}
 
-    }
+	public boolean bookSession(Subscriber sub, Session session) {
+		return false;
+	}
 }

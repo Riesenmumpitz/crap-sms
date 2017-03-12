@@ -1,6 +1,7 @@
 
 package com.crap.sms.controller;
 
+import java.io.Console;
 import java.util.Scanner;
 
 import com.crap.sms.domain.model.User;
@@ -67,7 +68,16 @@ public class Login {
 	}
 
 	private static String readInvisible(String message) {
-		return String.copyValueOf(System.console().readPassword(message));
+		Console console = System.console();
+		if (console != null) {
+			char[] input = console.readPassword(message);
+			return String.copyValueOf(input);
+		}
+		else {
+			/// if running in eclipse
+			System.out.println(message);
+			return new Scanner(System.in).nextLine();			
+		}
 	}
 
 	public static void createNewUser() {
