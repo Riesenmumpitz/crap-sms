@@ -146,7 +146,7 @@ public class UI {
 		int dataVolume= getValidDataVolume();
 		int costPerExtraMin = getValidCostPerExtraMin();
 		int basicFee= getValidBasicFee();
-		
+
 		//TODO create subscription
 	}
 
@@ -207,19 +207,25 @@ public class UI {
 		System.out.println(output);
 	}
 
-	private String getValidImsi() {
-		String result;
-		do {
-			System.out.println("Please enter the MSIN (empty value for abort)");
-			result = SubscriberValidator.MMC_MNC + new Scanner(System.in).nextLine();
-			if (!SubscriberValidator.isValidImsi(result)) {
-				System.out.println("Invalid MSIN. The MSIN must consist of 10 digits.");
-			} else {
-				break;
-			}
-		} while (true);
-		return result;
-	}
+    private String getValidImsi() {
+        do {
+            System.out.println("Please enter the MSIN (empty value for abort)");
+            String input = new Scanner(System.in).nextLine();
+            if (input == null || input.length() == 0) {
+                // Exit point!!!
+                System.out.println("Abort.\n");
+                return null;
+            }
+            String imsi = SubscriberValidator.MMC_MNC + input;
+            if (SubscriberValidator.isValidImsi(imsi)) {
+                // valid imsi
+                return imsi;
+            } else {
+                // invalid imsi
+                System.out.println("Invalid MSIN. The MSIN must consist of 10 digits.");
+            }
+        } while (true);
+    }
 
 	private String getValidForename() {
 		String result;
