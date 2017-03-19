@@ -34,4 +34,9 @@ public class Terminal implements Serializable {
 
         return connections != null ? connections.equals(terminal.connections) : terminal.connections == null;
     }
+    
+    @Override
+    public String toString() {
+    	return String.format("%s: RAN types: %s", uniqueName, RAN.toString(connections));
+    }
 }

@@ -96,4 +96,9 @@ public class Subscriber implements Serializable {
         if (usedMinutes != null ? !usedMinutes.equals(that.usedMinutes) : that.usedMinutes != null) return false;
         return dataVolume != null ? dataVolume.equals(that.dataVolume) : that.dataVolume == null;
     }
+    
+    @Override
+    public String toString() {
+    	return String.format("%s %s (%s): subscription: %s; terminal: %s", foreName, surName, IMSI, subscription, terminal);
+    }
 }

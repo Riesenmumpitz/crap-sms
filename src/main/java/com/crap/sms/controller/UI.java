@@ -11,26 +11,32 @@ import com.crap.sms.helper.SubscriberValidator;
 import com.crap.sms.service.InvoiceService;
 import com.crap.sms.service.SubscriberService;
 import com.crap.sms.service.SubscriptionService;
+import com.crap.sms.service.TerminalService;
+import com.sun.xml.internal.ws.util.StringUtils;
 
 public class UI {
 
 	private static final int NONE = -1;
 	private static final int EXIT = 0;
-	private static final int SUBSCRIBERS_ADD = 1;
-	private static final int SUBSCRIBERS_REMOVE = 2;
-	private static final int LIST_ENTRIES = 3;
+	private static final int LIST_ENTRIES = 1;
+	private static final int SUBSCRIBERS_ADD = 2;
+	private static final int SUBSCRIBERS_REMOVE = 3;
 	private static final int CREATE_SESSION = 4;
 	private static final int CREATE_INVOICE = 5;
-	private static final int SUBSCRIPTIONS_ADD = 6;
-	private static final int SUBSCRIPTIONS_REMOVE = 7;
-	private static final int SUBSCRIPTIONS_EDIT = 8;
+	private static final int SUBSCRIPTIONS_ADD = 7;
+	private static final int SUBSCRIPTIONS_REMOVE = 8;
+	private static final int SUBSCRIPTIONS_EDIT = 6;
+	private static final int TERMINALS_ADD = 10;
+	private static final int TERMINALS_REMOVE = 11;
+	private static final int TERMINALS_EDIT = 9;
 
 	public UI() {
 
 	}
 
 	private String buildPrompt(int function, String message) {
-		return " (" + function + ") " + message + "\n";
+		return String.format("(%2d) %-36s|\n", function, message);
+//				"(" + function + ") " + message + "\n";
 	}
 
 	private String getPrompt(int function) {
@@ -50,11 +56,17 @@ public class UI {
 		case CREATE_INVOICE:
 			return buildPrompt(function, "Send invoices for all subscribers.");
 		case SUBSCRIPTIONS_ADD:
-			return buildPrompt(function, "Add new subscription type.");
+			return buildPrompt(function, "Add a new subscription type.");
 		case SUBSCRIPTIONS_REMOVE:
 			return buildPrompt(function, "Remove a subscription type.");
 		case SUBSCRIPTIONS_EDIT:
 			return buildPrompt(function, "Edit a subscription type.");
+		case TERMINALS_ADD:
+			return buildPrompt(function, "Add a new terminal type.");
+		case TERMINALS_REMOVE:
+			return buildPrompt(function, "Remove a terminal type.");
+		case TERMINALS_EDIT:
+			return buildPrompt(function, "Edit a terminal type.");
 		default:
 			return "";
 		}
@@ -73,12 +85,10 @@ public class UI {
 	 * main routine, waiting for User Input & distributing Work
 	 */
 	public void work() {
+		String prompt = buildPrompt();
 		int action = NONE;
 		while (true) {
-			System.out.println("Please enter an action:\n" + getPrompt(EXIT) + getPrompt(SUBSCRIBERS_ADD)
-					+ getPrompt(SUBSCRIBERS_REMOVE) + getPrompt(LIST_ENTRIES) + getPrompt(CREATE_SESSION)
-					+ getPrompt(CREATE_INVOICE) + getPrompt(SUBSCRIPTIONS_ADD) + getPrompt(SUBSCRIPTIONS_REMOVE)
-					+ getPrompt(SUBSCRIPTIONS_EDIT));
+			System.out.println(prompt);
 			action = readAction();
 			switch (action) {
 			case EXIT:
@@ -100,13 +110,22 @@ public class UI {
 				createInvoices();
 				break;
 			case SUBSCRIPTIONS_ADD:
-				addNewSubscription();
+				SubscriptionUi.addSubscription();
 				break;
 			case SUBSCRIPTIONS_REMOVE:
-				removeSubscription();
+				SubscriptionUi.removeSubscription();
 				break;
 			case SUBSCRIPTIONS_EDIT:
-				editSubscription();
+				SubscriptionUi.editSubscription();
+				break;
+			case TERMINALS_ADD:
+				TerminalUi.addTerminal();
+				break;
+			case TERMINALS_REMOVE:
+				TerminalUi.removeTerminal();
+				break;
+			case TERMINALS_EDIT:
+				TerminalUi.editTerminal();
 				break;
 			default:
 				System.out.println("Invalid input!\n");
@@ -115,47 +134,58 @@ public class UI {
 		}
 	}
 
-	private void editSubscription() {
-		Subscription subscription = getValidSubscription();
-		String name = getValidSubscriptionName();
-		if (name.isEmpty()) {
-			return;
-		}
-		int freeMinutes = getValidFreeMinutes();
-		int dataVolume= getValidDataVolume();
-		int costPerExtraMin = getValidCostPerExtraMin();
-		int basicFee= getValidBasicFee();
-		//TODO edit subscriber
+	private String buildPrompt() {
+		final int width = 45;
+		final String boxLeft = "| ";			
+		final String boxFoot = String.format("+%0" + (width -3) + "d+\n", 0).replace("0", "-");//"+------------------------------------------+\n";
+
+		StringBuilder result = new StringBuilder();
+		result.append("Please enter an action:\n");
+		result.append(buildBoxHeader("Manage subscribers", width));
+		result.append(boxLeft).append(getPrompt(LIST_ENTRIES));
+		result.append(boxLeft).append(getPrompt(SUBSCRIBERS_ADD));
+		result.append(boxLeft).append(getPrompt(SUBSCRIBERS_REMOVE));
+		result.append(boxFoot);
+		result.append(buildBoxHeader("Manage subscriptions", width));
+		result.append(boxLeft).append(getPrompt(SUBSCRIPTIONS_EDIT));
+		result.append(boxLeft).append(getPrompt(SUBSCRIPTIONS_ADD));
+		result.append(boxLeft).append(getPrompt(SUBSCRIPTIONS_REMOVE));
+		result.append(boxFoot);
+		result.append(buildBoxHeader("Manage terminals", width));
+		result.append(boxLeft).append(getPrompt(TERMINALS_EDIT));
+		result.append(boxLeft).append(getPrompt(TERMINALS_ADD));
+		result.append(boxLeft).append(getPrompt(TERMINALS_REMOVE));
+		result.append(boxFoot);
+		result.append(buildBoxHeader("Manage sessions", width));
+		result.append(boxLeft).append(getPrompt(CREATE_SESSION));
+		result.append(boxLeft).append(getPrompt(CREATE_INVOICE));
+		result.append(boxFoot);
+		result.append(boxLeft).append(getPrompt(EXIT));
+		result.append(boxFoot);
+		return result.toString();
+		// return + getPrompt(EXIT) + getPrompt(SUBSCRIBERS_ADD)
+		// + getPrompt(SUBSCRIBERS_REMOVE) + getPrompt(LIST_ENTRIES) +
+		// getPrompt(CREATE_SESSION)
+		// + getPrompt(CREATE_INVOICE) + getPrompt(SUBSCRIPTIONS_ADD) +
+		// getPrompt(SUBSCRIPTIONS_REMOVE)
+		// + getPrompt(SUBSCRIPTIONS_EDIT);
 	}
 
-	private void removeSubscription() {
-		Subscription subscription = getValidSubscription();
-		if (subscription == null) {
-			return;
-		}
-		// TODO remove subscription
-		// if (SubscriptionService.)
+	private String buildBoxHeader(String boxHeader, int width) {
+		int i = width - 6 - boxHeader.length(); 
+		String result = String.format("+- %s ", boxHeader);
+		result += String.format("%0" + i + "d", 0).replace("0", "-") + "+\n";
+		return result;
 	}
-
-	private void addNewSubscription() {
-		String name = getValidSubscriptionName();
-		if (name.isEmpty()) {
-			return;
-		}
-		int freeMinutes = getValidFreeMinutes();
-		int dataVolume= getValidDataVolume();
-		int costPerExtraMin = getValidCostPerExtraMin();
-		int basicFee= getValidBasicFee();
-
-		//TODO create subscription
-	}
-
+	
 	private void createInvoices() {
 		InvoiceService invoice = new InvoiceService();
 		System.out.println(invoice.work());
 	}
 
 	private void createNewSession() {
+		// TEL: seconds
+		// DATA: seconds & RAN of the terminal
 		// TODO Auto-generated method stub
 		System.out.println("TODO: Creating new Session");
 	}
@@ -173,12 +203,21 @@ public class UI {
 		if ((surname == null) || (surname.isEmpty())) {
 			return;
 		}
-		Terminal terminal = getValidTerminal();
-		Subscription subscription = getValidSubscription();
+		Terminal terminal = getValidTerminal("Choose a terminal type");
+		if (terminal == null) {
+			return;
+		}
+		Subscription subscription = SubscriptionUi.getValidSubscription("Choose a subscription type");
+		if (subscription == null) {
+			return;
+		}
 
 		Subscriber subscriber = SubscriberService.addSubscriber(imsi, terminal, subscription, forename, surname);
-		if (subscriber == null) {
-			System.out.println("Internal problem. Could not save the subscriber.");
+		if (subscriber != null) {
+			System.out.println("Created subscriber: " + subscriber);
+		}
+		else {
+			System.out.println("Internal problem. Could not add the subscriber.");
 		}
 	}
 
@@ -196,7 +235,10 @@ public class UI {
 			System.out.println("Could not find subscriber with IMSI \"" + imsi + "\"");
 		} while (true);
 
-		if (!SubscriberService.removeSubScriber(subscriber)) {
+		if (SubscriberService.removeSubScriber(subscriber)) {
+			System.out.println("Removed subscriber.");
+		}
+		else {
 			System.out.println("Internal error. Could not remove the subscriber.");
 		}
 	}
@@ -207,9 +249,10 @@ public class UI {
 		System.out.println(output);
 	}
 
-    private String getValidImsi() {
-        do {
-            System.out.println("Please enter the MSIN (empty value for abort)");
+	private String getValidImsi() {
+		String result;
+		do {
+			System.out.println("Please enter the MSIN (empty value for abort)");
             String input = new Scanner(System.in).nextLine();
             if (input == null || input.length() == 0) {
                 // Exit point!!!
@@ -224,8 +267,8 @@ public class UI {
                 // invalid imsi
                 System.out.println("Invalid MSIN. The MSIN must consist of 10 digits.");
             }
-        } while (true);
-    }
+		} while (true);
+	}
 
 	private String getValidForename() {
 		String result;
@@ -233,7 +276,7 @@ public class UI {
 			System.out.println("Please enter the Forename (empty value for abort)");
 			result = new Scanner(System.in).nextLine();
 			if (!SubscriberValidator.isValidForename(result)) {
-				System.out.println("Invalid Forename. The forename must not be empty.");
+				System.out.println("Invalid Forename.");
 			} else {
 				break;
 			}
@@ -255,16 +298,17 @@ public class UI {
 		return result;
 	}
 
-	private Subscription getValidSubscription() {
-		Subscription result;
+	private Terminal getValidTerminal(String message) {
+		String prompt = message + ": (empty for abort)\n";
+		String[] types = TerminalService.getTerminalTypesArray();
+		for (int i = 0; i < types.length; i++) {
+			prompt += "(" + i + ") " + types[i] + "\n";
+		}
+
 		String input;
 		int index;
-		do {
-			System.out.println("Choose a subscription type: (empty for abort)");
-			String[] types = SubscriptionService.getSubscriptionTypesArray();
-			for (int i = 0; i < types.length; i++) {
-				System.out.println("(" + i + ") " + types[i]);
-			}
+		while (true) {
+			System.out.println(prompt);
 			input = new Scanner(System.in).nextLine();
 			if (input.isEmpty()) {
 				return null;
@@ -272,73 +316,15 @@ public class UI {
 			try {
 				index = Integer.parseInt(input);
 			} catch (Exception e) {
-				System.out.println("Not a number!");
+				System.out.println("Not a number.");
 				continue;
 			}
 			if ((index >= 0) && (index < types.length)) {
-				result = null; //TODO subscriptionService.getSubscription(types[i]);
-				break;
-			}
-		} while (true);
-
-		return result;
-	}
-
-	private Terminal getValidTerminal() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private String getValidSubscriptionName() {
-		String result;
-		do {
-			System.out.println("Please enter the subscription name (empty value for abort)");
-			result = new Scanner(System.in).nextLine();
-			if (!result.isEmpty()) {
-				System.out.println("Invalid subscription name. The subscription name must not be empty.");
+				return TerminalService.getTerminal(types[index]);
 			} else {
-				break;
+				System.out.println("Invalid index.");
 			}
-		} while (true);
-		return result;
-	}
-
-	private int getValidBasicFee() {
-		return readIntMin(0, "Please enter the basic fee (in Cent):");
-	}
-
-	private int getValidCostPerExtraMin() {
-		return readIntMin(0, "Please enter the extra cost per minute (in Cent):");
-	}
-
-	private int getValidDataVolume() {
-		return readIntMin(0, "Please enter the data volume (in Mbit/s):");
-	}
-
-	private int getValidFreeMinutes() {
-		return readIntMin(0, "Please enter the amount of free minutes:");
-	}
-
-	private int readIntMin(int min, String message) {
-		int result;
-		String input;
-		do {
-			System.out.println(message);
-			input = new Scanner(System.in).nextLine();
-			try {
-				result = Integer.parseInt(input);
-			} catch (Exception e) {
-				System.out.println("\"" + input + "\" is not a number.");
-				continue;
-			}
-			if (result >= min) {
-				break;
-			}
-			else {
-				System.out.println("The number has to be bigger than " + min + ".");
-			}
-		} while (true);
-		return result;
+		}
 	}
 
 }
