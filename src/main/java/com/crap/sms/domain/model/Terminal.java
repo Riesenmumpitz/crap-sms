@@ -51,19 +51,19 @@ public class Terminal implements Serializable {
 		}
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-		Terminal terminal = (Terminal) o;
+        Terminal terminal = (Terminal) o;
 
-		return connections != null ? connections.equals(terminal.connections) : terminal.connections == null;
-	}
+        if (active != terminal.active) return false;
+        if (uniqueName != null ? !uniqueName.equals(terminal.uniqueName) : terminal.uniqueName != null) return false;
+        return connections != null ? connections.equals(terminal.connections) : terminal.connections == null;
+    }
 
-	@Override
+    @Override
 	public String toString() {
 		String result = String.format("%s: RAN types: %s", uniqueName, RAN.toString(connections));
 		if (active) {
