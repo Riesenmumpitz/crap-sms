@@ -27,10 +27,10 @@ public class SubscriberStringHelper {
 	}
 
 	private static String getSubscriptionString(Subscription subscription) {
-		return "undefined Subscription";
+		return subscription.getUniqueName();
 	}
 
 	private static String getTerminalString(Terminal terminal) {
-		return "undefined Terminal";
+		return terminal.getUniqueName();
 	}
 }
