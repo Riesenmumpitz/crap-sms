@@ -95,7 +95,6 @@ public class SessionService {
 			print += "DATA VOLUME is USED UP\n";
 		}
 		System.out.println(print);
-        System.out.println("TEST : Subscriber after session " + sub.toString());
 		return true;
 	}
 }
