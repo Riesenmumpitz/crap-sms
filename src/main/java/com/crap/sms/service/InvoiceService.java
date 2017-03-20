@@ -59,10 +59,10 @@ public class InvoiceService {
 	private String getSubscriberInvoice(Subscriber s) {
 		String invoice = "";
 		invoice+="\n"+"Name: "+s.getSurName()+", "+s.getForeName()+"\n";
-		invoice+="Consumed data volume: "+s.getDataVolume()+"\n";
-		invoice+="Consumed minutes: "+s.getUsedMinutes()+"\n";
+		invoice+="Consumed data volume: "+s.getDataVolume()+" MB\n";
+		invoice+="Consumed minutes: "+s.getUsedMinutes()+" min\n";
 
-		invoice+="Total charges: "+getCharge(s.getUsedMinutes(), SubscriptionRepository.getInstance().getByUniqueName(s.getSubscription()))+"\n\n";
+		invoice+="Total charges: "+getCharge(s.getUsedMinutes(), SubscriptionRepository.getInstance().getByUniqueName(s.getSubscription()))/100+" EUR\n\n";
 		return invoice;
 	}
 }

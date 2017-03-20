@@ -4,7 +4,9 @@ import com.crap.sms.domain.model.RAN;
 import com.crap.sms.domain.model.Session;
 import com.crap.sms.domain.model.Subscriber;
 import com.crap.sms.domain.model.Subscription;
+import com.crap.sms.domain.repository.SubscriberRepository;
 import com.crap.sms.domain.repository.SubscriptionRepository;
+import com.crap.sms.domain.repository.UserRepository;
 
 public class SessionService {
 
@@ -49,7 +51,7 @@ public class SessionService {
 		if (session.getConnection() == null) {
 			// voice call service
 
-			sub.setUsedMinutes(sub.getUsedMinutes() + session.getSeconds());
+			sub.setUsedMinutes(sub.getUsedMinutes() + (int)(session.getSeconds()/60));
 			print += "Service: Voice Call\n";
 			usedSec += session.getSeconds();
 		} else {
@@ -71,30 +73,39 @@ public class SessionService {
 				return false;
 			}
 
-			// use data volume as long as requested and possible
-			while (usedSec <= session.getSeconds()) {
-				//check if data volume is used up
-				if (s.getDataVolume() - sub.getDataVolume() <= 0
-						|| s.getDataVolume()
-						- (sub.getDataVolume() + achievedDataRate) <= 0) {
-					usedUp = true;
-					break;
-				}
-				usedSec += 1;
-				usedVolume += (int)(achievedDataRate / 8);
-				//update total used data volume of subscriber
-				sub.setDataVolume(sub.getDataVolume() + (int)(achievedDataRate/8));
-			}
+			if (achievedDataRate*session.getSeconds() + sub.getDataVolume() > s.getDataVolume()){
+                System.out.println("Data volume used up!");
+                usedVolume = s.getDataVolume() - sub.getDataVolume();
+                sub.setDataVolume(s.getDataVolume());
+            } else {
+                usedVolume = (int) (achievedDataRate * session.getSeconds());
+                sub.setDataVolume(sub.getDataVolume() + (int)(usedVolume/8));
+            }
+
+//			// use data volume as long as requested and possible
+//			while (usedSec < session.getSeconds()) {
+//				//check if data volume is used up
+//				if (s.getDataVolume() - sub.getDataVolume() <= 0
+//						|| s.getDataVolume()
+//						- (sub.getDataVolume() + achievedDataRate) <= 0) {
+//					usedUp = true;
+//					break;
+//				}
+//				usedSec += 1;
+//				usedVolume += (int)(achievedDataRate / 8);
+//				//update total used data volume of subscriber
+//				sub.setDataVolume(sub.getDataVolume() + (int)(achievedDataRate/8));
+//			}
 
 			print += "Achieved data-rate: " + achievedDataRate + " Mbit/s\n";
-			print += "Used data volume: " + usedVolume + " MB\n";
+			print += "Used data volume: " + (int)(usedVolume/8) + " MB\n";
 
 		}
-		print += "Time used: " + usedSec + "\n";
 		if (usedUp) {
 			print += "DATA VOLUME is USED UP\n";
 		}
 		System.out.println(print);
-		return true;
+        SubscriberRepository.getInstance().save(sub);
+        return true;
 	}
 }
