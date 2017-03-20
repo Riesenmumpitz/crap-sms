@@ -27,10 +27,16 @@ public class SubscriberStringHelper {
 	}
 
 	private static String getSubscriptionString(Subscription subscription) {
+		if (subscription == null) {
+			return "Subscription Nicht vorhanden";
+		}
 		return subscription.getUniqueName();
 	}
 
 	private static String getTerminalString(Terminal terminal) {
+		if (terminal == null) {
+			return "Terminal Nicht vorhanden";
+		}
 		return terminal.getUniqueName();
 	}
 }
