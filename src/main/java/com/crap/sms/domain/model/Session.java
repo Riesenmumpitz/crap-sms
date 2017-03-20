@@ -26,4 +26,28 @@ public class Session implements Serializable {
         this.connection = connection;
         this.dataRate = dataRate;
     }
+
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+    }
+
+    public RAN getConnection() {
+        return connection;
+    }
+
+    public void setConnection(RAN connection) {
+        this.connection = connection;
+    }
+
+    public double getDataRate() {
+        return dataRate;
+    }
+
+    public void setDataRate(double dataRate) {
+        this.dataRate = dataRate;
+    }
 }

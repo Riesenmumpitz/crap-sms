@@ -76,7 +76,9 @@ public class Subscription implements Serializable {
 			return false;
 		if (costPerExtraMinute != that.costPerExtraMinute)
 			return false;
-		return basicFee == that.basicFee;
+		if (this.basicFee != that.basicFee) return false;
+		if (this.uniqueName != that.uniqueName) return false;
+		return true;
 	}
 
 	@Override

@@ -1,8 +1,5 @@
 package com.crap.sms.controller;
 
-import java.util.List;
-import java.util.Scanner;
-
 import com.crap.sms.domain.model.Subscriber;
 import com.crap.sms.domain.model.Subscription;
 import com.crap.sms.domain.model.Terminal;
@@ -10,9 +7,10 @@ import com.crap.sms.domain.repository.SubscriberRepository;
 import com.crap.sms.helper.SubscriberValidator;
 import com.crap.sms.service.InvoiceService;
 import com.crap.sms.service.SubscriberService;
-import com.crap.sms.service.SubscriptionService;
 import com.crap.sms.service.TerminalService;
-import com.sun.xml.internal.ws.util.StringUtils;
+
+import java.util.List;
+import java.util.Scanner;
 
 public class UI {
 
