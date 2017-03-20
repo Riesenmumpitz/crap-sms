@@ -51,7 +51,8 @@ public class Subscription implements Serializable {
 		this.active = true;
 	}
 
-	public Subscription(String uniqueName, int freeMinutes, int dataVolume, int costPerExtraMinute, int basicFee, boolean active) {
+	public Subscription(String uniqueName, int freeMinutes, int dataVolume, int costPerExtraMinute, int basicFee,
+			boolean active) {
 		this.uniqueName = uniqueName;
 		this.freeMinutes = freeMinutes;
 		this.dataVolume = dataVolume;
@@ -95,14 +96,21 @@ public class Subscription implements Serializable {
 			return false;
 		if (costPerExtraMinute != that.costPerExtraMinute)
 			return false;
-		if (this.basicFee != that.basicFee) return false;
-		if (this.uniqueName != that.uniqueName) return false;
+		if (this.basicFee != that.basicFee)
+			return false;
+		if (this.uniqueName != that.uniqueName)
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("%s: Free Min: %d; Data Volume: %d MB; Cost per min: %d ct; Basic fee: %d ct",
+		String result = String.format("%s: Free Min: %d; Data Volume: %d MB; Cost per min: %d ct; Basic fee: %d ct",
 				getUniqueName(), freeMinutes, dataVolume, costPerExtraMinute, basicFee);
+		if (active) {
+			return result + "; active";
+		} else {
+			return result + "; not active";
+		}
 	}
 }

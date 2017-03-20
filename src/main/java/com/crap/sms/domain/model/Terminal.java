@@ -67,9 +67,9 @@ public class Terminal implements Serializable {
 	public String toString() {
 		String result = String.format("%s: RAN types: %s", uniqueName, RAN.toString(connections));
 		if (active) {
-			return result + "; not active";
-		} else {
 			return result + "; active";
+		} else {
+			return result + "; not active";
 		}
 	}
 }

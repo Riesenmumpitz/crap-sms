@@ -24,7 +24,7 @@ public class SessionService {
 	}
 
 	private static double generateRandomConnectionRate() {
-		switch ((int) Math.random() * 4) {
+		switch ((int) (Math.random() * 4)) {
 			case 0:
 				return 0;
 			case 1:
