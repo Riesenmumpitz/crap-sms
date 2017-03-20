@@ -244,6 +244,10 @@ public class UI {
 
 	private void addSubscriber() {
 		String imsi = getValidImsi();
+		if (SubscriberRepository.getInstance().getByImsi(imsi) != null) {
+			System.out.println("MSIN bereits vorhanden!");
+			return;
+		}
 		if ((imsi == null) || (imsi.isEmpty())) {
 			return;
 		}
