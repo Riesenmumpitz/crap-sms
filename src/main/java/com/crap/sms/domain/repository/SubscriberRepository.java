@@ -62,8 +62,28 @@ public class SubscriberRepository extends AbstractRepository{
         return subscribers;
     }
 
-    public List<Subscriber> getAllBySubscription () {
-        return null;
+    public List<Subscriber> getAllBySubscription (String subscriptionName) {
+        List<Subscriber> subscribers = new ArrayList<Subscriber>();
+        List<Object> objects = super.getAllIntern();
+        for(Object o : objects) {
+            Subscriber subscriber = (Subscriber)o;
+            if(subscriber.getSubscription().equals(subscriptionName)) {
+                subscribers.add(subscriber);
+            }
+        }
+        return subscribers;
+    }
+
+    public List<Subscriber> getAllByTerminal (String terminalName) {
+        List<Subscriber> subscribers = new ArrayList<Subscriber>();
+        List<Object> objects = super.getAllIntern();
+        for(Object o : objects) {
+            Subscriber subscriber = (Subscriber)o;
+            if(subscriber.getTerminal().equals(terminalName)) {
+                subscribers.add(subscriber);
+            }
+        }
+        return subscribers;
     }
 
     public boolean delete(Subscriber subscriber) {
