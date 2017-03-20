@@ -25,6 +25,10 @@ public class SubscriberService {
         return subscriberRepository.getByImsi(imsi);
     }
 
+    public static boolean existsSubscriberWithSubscription(String subscription) {
+    	return subscriberRepository.getAllBySubscription(subscription).isEmpty();
+    }
+
     public static boolean removeSubScriber(Subscriber subscriber) {
         return subscriberRepository.delete(subscriber);
     }

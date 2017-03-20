@@ -201,11 +201,11 @@ public class UI {
 		if ((surname == null) || (surname.isEmpty())) {
 			return;
 		}
-		Terminal terminal = getValidTerminal("Choose a terminal type");
+		Terminal terminal = TerminalUi.getValidActiveTerminal("Choose a terminal type");
 		if (terminal == null) {
 			return;
 		}
-		Subscription subscription = SubscriptionUi.getValidSubscription("Choose a subscription type");
+		Subscription subscription = SubscriptionUi.getValidActiveSubscription("Choose a subscription type");
 		if (subscription == null) {
 			return;
 		}
@@ -294,35 +294,6 @@ public class UI {
 			}
 		} while (true);
 		return result;
-	}
-
-	private Terminal getValidTerminal(String message) {
-		String prompt = message + ": (empty for abort)\n";
-		String[] types = TerminalService.getTerminalTypesArray();
-		for (int i = 0; i < types.length; i++) {
-			prompt += "(" + i + ") " + types[i] + "\n";
-		}
-
-		String input;
-		int index;
-		while (true) {
-			System.out.println(prompt);
-			input = new Scanner(System.in).nextLine();
-			if (input.isEmpty()) {
-				return null;
-			}
-			try {
-				index = Integer.parseInt(input);
-			} catch (Exception e) {
-				System.out.println("Not a number.");
-				continue;
-			}
-			if ((index >= 0) && (index < types.length)) {
-				return TerminalService.getTerminal(types[index]);
-			} else {
-				System.out.println("Invalid index.");
-			}
-		}
 	}
 
 }

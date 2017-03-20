@@ -3,6 +3,7 @@ package com.crap.sms.controller;
 import java.util.Scanner;
 
 import com.crap.sms.domain.model.Subscription;
+import com.crap.sms.service.SubscriberService;
 import com.crap.sms.service.SubscriptionService;
 
 public class SubscriptionUi {
@@ -16,25 +17,36 @@ public class SubscriptionUi {
 		int dataVolume = getValidDataVolume();
 		int costPerExtraMin = getValidCostPerExtraMin();
 		int basicFee = getValidBasicFee();
-		
-		Subscription subscription = new Subscription(name, freeMinutes, dataVolume, costPerExtraMin, basicFee);
+		boolean active = getBoolean("Is the subscription active (available for new subscribers)");
+
+
+		Subscription subscription = new Subscription(name, freeMinutes, dataVolume, costPerExtraMin, basicFee, active);
 		if (SubscriptionService.saveSubscription(subscription)) {
-			System.out.println("Created subscription: " + subscription);			
-		}
-		else {
+			System.out.println("Created subscription: " + subscription);
+		} else {
 			System.out.println("An error occured, could not save your changes.");
-		}		
+		}
 	}
 
 	public static void removeSubscription() {
-		Subscription subscription = getValidSubscription("Choose the subscription type you want to delete");
-		if (subscription == null) {
-			return;
+		Subscription subscription = null;
+		while (true) {
+			subscription = getValidSubscription("Choose the subscription type you want to delete");
+			if (subscription == null) {
+				return;
+			}
+			if (SubscriberService.existsSubscriberWithSubscription(subscription.getUniqueName())) {
+				break;
+			} else {
+				System.out.printf(
+						"The subscription \"%s\" can not be deleted. There are still subscribers using this subscription.\n",
+						subscription.getUniqueName());
+			}
 		}
+
 		if (SubscriptionService.removeSubscription(subscription)) {
-			System.out.println("Removed subscription.");			
-		}
-		else {
+			System.out.println("Removed subscription.");
+		} else {
 			System.out.println("An error occured, could not remove the subscription.");
 		}
 	}
@@ -52,15 +64,15 @@ public class SubscriptionUi {
 		int dataVolume = getChangeValidDataVolume(subscription.getDataVolume());
 		int costPerExtraMin = getChangeValidCostPerExtraMin(subscription.getCostPerExtraMinute());
 		int basicFee = getChangeValidBasicFee(subscription.getBasicFee());
+		boolean active = getBoolean("Is the subscription active (available for new subscribers)");
 
-		Subscription newSubscription = new Subscription(name, freeMinutes, dataVolume, costPerExtraMin, basicFee);
-		if ((SubscriptionService.removeSubscription(subscription)) && (SubscriptionService.saveSubscription(newSubscription))) {
+		Subscription newSubscription = new Subscription(name, freeMinutes, dataVolume, costPerExtraMin, basicFee, active);
+		if ((SubscriptionService.removeSubscription(subscription))
+				&& (SubscriptionService.saveSubscription(newSubscription))) {
 			System.out.println("Change subscription: " + newSubscription);
-		}
-		else {
+		} else {
 			System.out.println("An error occured, could not save your changes.");
 		}
-		
 	}
 
 	private static int getChangeValidBasicFee(int oldValue) {
@@ -102,6 +114,20 @@ public class SubscriptionUi {
 		}
 	}
 	
+	private static boolean getBoolean(String message) {
+		while (true) {
+			System.out.println(message + ": (Y/N)");
+			String input = new Scanner(System.in).nextLine();
+			if (input.toUpperCase().equals("Y")) {
+				return true;
+			} else if (input.toUpperCase().equals("N")) {
+				return false;
+			} else {
+				System.out.println("Invalid input.");
+			}
+		}
+	}
+
 	private static int getChangeValidFreeMinutes(int oldValue) {
 		final int min = 0;
 		int result = readIntMin(min,
@@ -115,14 +141,21 @@ public class SubscriptionUi {
 		}
 	}
 
-	public static Subscription getValidSubscription(String message) {
+	public static Subscription getValidActiveSubscription(String message) {
+		return getValidSubscription(message, SubscriptionService.getSubscriptionTypesArray());
+	}
+
+	private static Subscription getValidSubscription(String message) {
+		return getValidSubscription(message, SubscriptionService.getSubscriptionTypesArray());
+	}
+
+	private static Subscription getValidSubscription(String message, String[] types) {
 		String prompt = message + ": (empty for abort)\n";
-		String[] types = SubscriptionService.getSubscriptionTypesArray();
-		if (types.length == 0)	 {
+		if (types.length == 0) {
 			System.out.println("There are no subscriptions in the system.");
 			return null;
 		}
-		
+
 		for (int i = 0; i < types.length; i++) {
 			prompt += "(" + i + ") " + types[i] + "\n";
 		}
@@ -149,10 +182,10 @@ public class SubscriptionUi {
 		}
 	}
 
-//	private static int getChangeValidName(String oldValue) {
-//		
-//	}
-	
+	// private static int getChangeValidName(String oldValue) {
+	//
+	// }
+
 	private static String getValidSubscriptionName() {
 		String result;
 		do {

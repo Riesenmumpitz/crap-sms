@@ -8,10 +8,19 @@ import java.io.Serializable;
 public class Subscription implements Serializable {
 
 	private String uniqueName;
+	private boolean active;
 	private int freeMinutes;
 	private int dataVolume;
 	private int costPerExtraMinute;
 	private int basicFee;
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
 	public void setUniqueName(String uniqueName) {
 		this.uniqueName = uniqueName;
@@ -39,6 +48,16 @@ public class Subscription implements Serializable {
 		this.dataVolume = dataVolume;
 		this.costPerExtraMinute = costPerExtraMinute;
 		this.basicFee = basicFee;
+		this.active = true;
+	}
+
+	public Subscription(String uniqueName, int freeMinutes, int dataVolume, int costPerExtraMinute, int basicFee, boolean active) {
+		this.uniqueName = uniqueName;
+		this.freeMinutes = freeMinutes;
+		this.dataVolume = dataVolume;
+		this.costPerExtraMinute = costPerExtraMinute;
+		this.basicFee = basicFee;
+		this.active = active;
 	}
 
 	public int getFreeMinutes() {

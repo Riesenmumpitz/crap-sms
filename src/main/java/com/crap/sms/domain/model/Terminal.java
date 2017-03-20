@@ -9,34 +9,57 @@ import java.util.Set;
  */
 public class Terminal implements Serializable {
 
-    private String uniqueName;
-    private Set<RAN> connections = new HashSet<RAN>();
+	private String uniqueName;
+	private boolean active;
+	private Set<RAN> connections = new HashSet<RAN>();
 
-    public Terminal(String uniqueName, Set<RAN> connections) {
-        this.uniqueName = uniqueName;
-        this.connections = connections;
-    }
+	public boolean isActive() {
+		return active;
+	}
 
-    public String getUniqueName() {
-        return uniqueName;
-    }
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
-    public Set<RAN> getConnections() {
-        return connections;
-    }
+	public Terminal(String uniqueName, Set<RAN> connections) {
+		this.uniqueName = uniqueName;
+		this.connections = connections;
+		this.active = true;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public Terminal(String uniqueName, Set<RAN> connections, boolean active) {
+		this.uniqueName = uniqueName;
+		this.connections = connections;
+		this.active = active;
+	}
 
-        Terminal terminal = (Terminal) o;
+	public String getUniqueName() {
+		return uniqueName;
+	}
 
-        return connections != null ? connections.equals(terminal.connections) : terminal.connections == null;
-    }
-    
-    @Override
-    public String toString() {
-    	return String.format("%s: RAN types: %s", uniqueName, RAN.toString(connections));
-    }
+	public Set<RAN> getConnections() {
+		return connections;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		Terminal terminal = (Terminal) o;
+
+		return connections != null ? connections.equals(terminal.connections) : terminal.connections == null;
+	}
+
+	@Override
+	public String toString() {
+		String result = String.format("%s: RAN types: %s", uniqueName, RAN.toString(connections));
+		if (active) {
+			return result + "; not active";
+		} else {
+			return result + "; active";
+		}
+	}
 }

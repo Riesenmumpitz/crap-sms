@@ -19,17 +19,18 @@ public class TerminalUi {
 			return;
 		}
 		Set<RAN> connections = getValidConnections();
-		if (connections.isEmpty())	{
+		if (connections.isEmpty()) {
 			return;
 		}
+		boolean active = getBoolean("Is the Terminal active (available for new subscribers)");
+		
 
-		Terminal terminal = new Terminal(name, connections);
+		Terminal terminal = new Terminal(name, connections, active);
 		if (TerminalService.saveTerminal(terminal)) {
-			System.out.println("Created terminal type: " + terminal);			
-		}
-		else {
+			System.out.println("Created terminal type: " + terminal);
+		} else {
 			System.out.println("An error occured, could not save your changes.");
-		}		
+		}
 	}
 
 	public static void removeTerminal() {
@@ -38,11 +39,10 @@ public class TerminalUi {
 			return;
 		}
 		if (TerminalService.removeTerminal(terminal)) {
-			System.out.println("Removed terminal type.");			
-		}
-		else {
+			System.out.println("Removed terminal type.");
+		} else {
 			System.out.println("An error occured, could not remove the terminal type.");
-		}		
+		}
 	}
 
 	public static void editTerminal() {
@@ -54,27 +54,30 @@ public class TerminalUi {
 		if (name.isEmpty()) {
 			return;
 		}
+		boolean active = getBoolean("Is the Terminal active (available for new subscribers)");
 		
-		Set<RAN> connections = null;
-		System.out.println("TODO: RAN types");
-		
-		Terminal newTerminal = new Terminal(name, connections);
+
+		Set<RAN> connections = getValidConnections();
+		if (connections.isEmpty()) {
+			connections = terminal.getConnections();
+		}
+
+		Terminal newTerminal = new Terminal(name, connections, active);
 		// TODO edit terminal
 		if ((TerminalService.removeTerminal(terminal)) && (TerminalService.saveTerminal(newTerminal))) {
 			System.out.println("Changed terminal type: " + newTerminal);
-		}
-		else {
-			System.out.println("An error occured, could not save your changes.");	
+		} else {
+			System.out.println("An error occured, could not save your changes.");
 		}
 	}
-	
+
 	private static Set<RAN> getValidConnections() {
 		Set<RAN> result = new TreeSet<RAN>();
 		ArrayList<RAN> all = new ArrayList<RAN>();
 		all.add(RAN.G2);
 		all.add(RAN.G3);
 		all.add(RAN.G4);
-		
+
 		while (all.size() > 0) {
 			String prompt = "";
 			for (int i = 0; i < all.size(); i++) {
@@ -82,7 +85,8 @@ public class TerminalUi {
 			}
 			String input;
 			int index;
-			System.out.println("Which RAN types does your terminal type use? (empty if you are finished / no RAN types to abort)");
+			System.out.println(
+					"Which RAN types does your terminal type use? (empty if you are finished / no RAN types to abort)");
 			System.out.println(prompt);
 			input = new Scanner(System.in).nextLine();
 			if (input.isEmpty()) {
@@ -103,8 +107,16 @@ public class TerminalUi {
 		}
 		return result;
 	}
-	
+
+	public static Terminal getValidActiveTerminal(String message) {
+		return getValidTerminal(message, TerminalService.getActivTerminalTypesArray());
+	}
+
 	public static Terminal getValidTerminal(String message) {
+		return getValidTerminal(message, TerminalService.getTerminalTypesArray());
+	}
+
+	private static Terminal getValidTerminal(String message, String[] terminalTypes) {
 		String prompt = message + ": (empty for abort)\n";
 		String[] types = TerminalService.getTerminalTypesArray();
 		if (types.length == 0) {
@@ -134,6 +146,20 @@ public class TerminalUi {
 				return TerminalService.getTerminal(types[index]);
 			} else {
 				System.out.println("Invalid index.");
+			}
+		}
+	}
+	
+	private static boolean getBoolean(String message) {
+		while (true) {
+			System.out.println(message + ": (Y/N)");
+			String input = new Scanner(System.in).nextLine();
+			if (input.toUpperCase().equals("Y")) {
+				return true;
+			} else if (input.toUpperCase().equals("N")) {
+				return false;
+			} else {
+				System.out.println("Invalid input.");
 			}
 		}
 	}
