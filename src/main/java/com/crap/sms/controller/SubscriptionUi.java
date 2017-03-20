@@ -14,11 +14,22 @@ public class SubscriptionUi {
 			return;
 		}
 		int freeMinutes = getValidFreeMinutes();
+		if (freeMinutes < 0) {
+			return;
+		}
 		int dataVolume = getValidDataVolume();
+		if (dataVolume < 0) {
+			return;
+		}
 		int costPerExtraMin = getValidCostPerExtraMin();
+		if (costPerExtraMin < 0) {
+			return;
+		}
 		int basicFee = getValidBasicFee();
+		if (basicFee < 0) {
+			return;
+		}
 		boolean active = getBoolean("Is the subscription active (available for new subscribers)");
-
 
 		Subscription subscription = new Subscription(name, freeMinutes, dataVolume, costPerExtraMin, basicFee, active);
 		if (SubscriptionService.saveSubscription(subscription)) {
@@ -26,6 +37,7 @@ public class SubscriptionUi {
 		} else {
 			System.out.println("An error occured, could not save your changes.");
 		}
+
 	}
 
 	public static void removeSubscription() {
@@ -56,17 +68,15 @@ public class SubscriptionUi {
 		if (subscription == null) {
 			return;
 		}
-		String name = getValidSubscriptionName();
-		if (name.isEmpty()) {
-			return;
-		}
 		int freeMinutes = getChangeValidFreeMinutes(subscription.getFreeMinutes());
 		int dataVolume = getChangeValidDataVolume(subscription.getDataVolume());
 		int costPerExtraMin = getChangeValidCostPerExtraMin(subscription.getCostPerExtraMinute());
 		int basicFee = getChangeValidBasicFee(subscription.getBasicFee());
-		boolean active = getBoolean("Is the subscription active (available for new subscribers)");
+		boolean active = getBoolean("Is the subscription active (available for new subscribers)",
+				subscription.isActive());
 
-		Subscription newSubscription = new Subscription(name, freeMinutes, dataVolume, costPerExtraMin, basicFee, active);
+		Subscription newSubscription = new Subscription(subscription.getUniqueName(), freeMinutes, dataVolume, costPerExtraMin, basicFee,
+				active);
 		if ((SubscriptionService.removeSubscription(subscription))
 				&& (SubscriptionService.saveSubscription(newSubscription))) {
 			System.out.println("Change subscription: " + newSubscription);
@@ -113,7 +123,7 @@ public class SubscriptionUi {
 			return result;
 		}
 	}
-	
+
 	private static boolean getBoolean(String message) {
 		while (true) {
 			System.out.println(message + ": (Y/N)");
@@ -124,6 +134,24 @@ public class SubscriptionUi {
 				return false;
 			} else {
 				System.out.println("Invalid input.");
+			}
+		}
+	}
+
+	private static boolean getBoolean(String message, boolean defaultResult) {
+		while (true) {
+			if (defaultResult) {
+				System.out.println(message + ": (Y/N) (empty to keep the current value Yes)");
+			} else {
+				System.out.println(message + ": (Y/N) (empty to keep the current value No)");
+			}
+			String input = new Scanner(System.in).nextLine();
+			if (input.toUpperCase().equals("Y")) {
+				return true;
+			} else if (input.toUpperCase().equals("N")) {
+				return false;
+			} else {
+				return defaultResult;
 			}
 		}
 	}
@@ -202,19 +230,19 @@ public class SubscriptionUi {
 	}
 
 	private static int getValidBasicFee() {
-		return readIntMin(0, "Please enter the basic fee (in Cent):");
+		return readIntMin(0, "Please enter the basic fee (in Cent): (empty value for abort)");
 	}
 
 	private static int getValidCostPerExtraMin() {
-		return readIntMin(0, "Please enter the extra cost per minute (in Cent):");
+		return readIntMin(0, "Please enter the extra cost per minute (in Cent): (empty value for abort)");
 	}
 
 	private static int getValidDataVolume() {
-		return readIntMin(0, "Please enter the data volume (in MB):");
+		return readIntMin(0, "Please enter the data volume (in MB): (empty value for abort)");
 	}
 
 	private static int getValidFreeMinutes() {
-		return readIntMin(0, "Please enter the amount of free minutes:");
+		return readIntMin(0, "Please enter the amount of free minutes: (empty value for abort)");
 	}
 
 	private static int readIntMin(int min, String message) {
@@ -223,9 +251,9 @@ public class SubscriptionUi {
 		do {
 			System.out.println(message);
 			input = new Scanner(System.in).nextLine();
-			if (input.isEmpty()) {
-				return min - 1;
-			}
+			// if (input.isEmpty()) {
+			// return min - 1;
+			// }
 			try {
 				result = Integer.parseInt(input);
 			} catch (Exception e) {

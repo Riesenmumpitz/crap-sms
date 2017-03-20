@@ -59,18 +59,14 @@ public class TerminalUi {
 		if (terminal == null) {
 			return;
 		}
-		String name = getValidTerminalName();
-		if (name.isEmpty()) {
-			return;
-		}
-		boolean active = getBoolean("Is the Terminal active (available for new subscribers)");
+		boolean active = getBoolean("Is the Terminal active (available for new subscribers)", terminal.isActive());
 
 		Set<RAN> connections = getValidConnections();
 		if (connections.isEmpty()) {
 			connections = terminal.getConnections();
 		}
 
-		Terminal newTerminal = new Terminal(name, connections, active);
+		Terminal newTerminal = new Terminal(terminal.getUniqueName(), connections, active);
 		// TODO edit terminal
 		if ((TerminalService.removeTerminal(terminal)) && (TerminalService.saveTerminal(newTerminal))) {
 			System.out.println("Changed terminal type: " + newTerminal);
@@ -168,6 +164,24 @@ public class TerminalUi {
 				return false;
 			} else {
 				System.out.println("Invalid input.");
+			}
+		}
+	}
+
+	private static boolean getBoolean(String message, boolean defaultResult) {
+		while (true) {
+			if (defaultResult) {
+				System.out.println(message + ": (Y/N) (empty to keep the current value Yes)");
+			} else {
+				System.out.println(message + ": (Y/N) (empty to keep the current value No)");
+			}
+			String input = new Scanner(System.in).nextLine();
+			if (input.toUpperCase().equals("Y")) {
+				return true;
+			} else if (input.toUpperCase().equals("N")) {
+				return false;
+			} else {
+				return defaultResult;
 			}
 		}
 	}

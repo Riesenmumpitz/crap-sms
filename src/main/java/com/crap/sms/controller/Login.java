@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import com.crap.sms.domain.model.User;
 import com.crap.sms.domain.repository.ConfigurationRepository;
-import com.crap.sms.domain.repository.UserRepository;
 import com.crap.sms.service.UserManagementService;
 import com.crap.sms.domain.model.Configuration;
 
