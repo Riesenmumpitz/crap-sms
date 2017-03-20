@@ -35,7 +35,7 @@ public class SubscriptionUi {
 		if (SubscriptionService.saveSubscription(subscription)) {
 			System.out.println("Created subscription: " + subscription);
 		} else {
-			System.out.println("An error occured, could not save your changes.");
+			System.out.println("An error occurred, could not save your changes.");
 		}
 
 	}
@@ -59,7 +59,7 @@ public class SubscriptionUi {
 		if (SubscriptionService.removeSubscription(subscription)) {
 			System.out.println("Removed subscription.");
 		} else {
-			System.out.println("An error occured, could not remove the subscription.");
+			System.out.println("An error occurred, could not remove the subscription.");
 		}
 	}
 
@@ -75,13 +75,16 @@ public class SubscriptionUi {
 		boolean active = getBoolean("Is the subscription active (available for new subscribers)",
 				subscription.isActive());
 
-		Subscription newSubscription = new Subscription(subscription.getUniqueName(), freeMinutes, dataVolume, costPerExtraMin, basicFee,
-				active);
-		if ((SubscriptionService.removeSubscription(subscription))
-				&& (SubscriptionService.saveSubscription(newSubscription))) {
-			System.out.println("Change subscription: " + newSubscription);
+		subscription.setActive(active);
+		subscription.setBasicFee(basicFee);
+		subscription.setCostPerExtraMinute(costPerExtraMin);
+		subscription.setDataVolume(dataVolume);
+		subscription.setFreeMinutes(freeMinutes);
+
+		if (SubscriptionService.saveSubscription(subscription)) {
+			System.out.println("Changed subscription: " + subscription);
 		} else {
-			System.out.println("An error occured, could not save your changes.");
+			System.out.println("An error occurred, could not save your changes.");
 		}
 	}
 
@@ -251,9 +254,9 @@ public class SubscriptionUi {
 		do {
 			System.out.println(message);
 			input = new Scanner(System.in).nextLine();
-			// if (input.isEmpty()) {
-			// return min - 1;
-			// }
+			if (input.isEmpty()) {
+				return min - 1;
+			}
 			try {
 				result = Integer.parseInt(input);
 			} catch (Exception e) {

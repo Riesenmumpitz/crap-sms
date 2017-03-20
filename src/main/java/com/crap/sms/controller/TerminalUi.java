@@ -9,6 +9,7 @@ import com.crap.sms.domain.model.RAN;
 import com.crap.sms.domain.model.Terminal;
 import com.crap.sms.service.SubscriberService;
 import com.crap.sms.service.TerminalService;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
 
 public class TerminalUi {
 
@@ -27,7 +28,7 @@ public class TerminalUi {
 		if (TerminalService.saveTerminal(terminal)) {
 			System.out.println("Created terminal type: " + terminal);
 		} else {
-			System.out.println("An error occured, could not save your changes.");
+			System.out.println("An error occurred, could not save your changes.");
 		}
 	}
 
@@ -50,7 +51,7 @@ public class TerminalUi {
 		if (TerminalService.removeTerminal(terminal)) {
 			System.out.println("Removed terminal type.");
 		} else {
-			System.out.println("An error occured, could not remove the terminal type.");
+			System.out.println("An error occurred, could not remove the terminal type.");
 		}
 	}
 
@@ -66,12 +67,12 @@ public class TerminalUi {
 			connections = terminal.getConnections();
 		}
 
-		Terminal newTerminal = new Terminal(terminal.getUniqueName(), connections, active);
-		// TODO edit terminal
-		if ((TerminalService.removeTerminal(terminal)) && (TerminalService.saveTerminal(newTerminal))) {
-			System.out.println("Changed terminal type: " + newTerminal);
+		terminal.setActive(active);
+		terminal.setConnections(connections);
+		if (TerminalService.saveTerminal(terminal)) {
+			System.out.println("Changed terminal type: " + terminal);
 		} else {
-			System.out.println("An error occured, could not save your changes.");
+			System.out.println("An error occurred, could not save your changes.");
 		}
 	}
 

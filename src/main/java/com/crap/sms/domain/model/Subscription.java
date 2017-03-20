@@ -83,17 +83,30 @@ public class Subscription implements Serializable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
 		Subscription that = (Subscription) o;
 
-		if (active != that.active) return false;
-		if (freeMinutes != that.freeMinutes) return false;
-		if (dataVolume != that.dataVolume) return false;
-		if (costPerExtraMinute != that.costPerExtraMinute) return false;
-		if (basicFee != that.basicFee) return false;
-		return uniqueName != null ? uniqueName.equals(that.uniqueName) : that.uniqueName == null;
+		if (active != that.active)
+			return false;
+		if (freeMinutes != that.freeMinutes)
+			return false;
+		if (dataVolume != that.dataVolume)
+			return false;
+		if (costPerExtraMinute != that.costPerExtraMinute)
+			return false;
+		if (basicFee != that.basicFee)
+			return false;
+		if (((uniqueName == null) && (that.uniqueName == null)) || (uniqueName.equals(that.uniqueName))) {
+			return true;
+		} else {
+			return false;
+		}
+		// return uniqueName != null ? uniqueName.equals(that.uniqueName) :
+		// that.uniqueName == null;
 	}
 
 	@Override

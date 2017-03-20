@@ -13,6 +13,10 @@ public class Terminal implements Serializable {
 	private boolean active;
 	private Set<RAN> connections = new HashSet<RAN>();
 
+	public void setConnections(Set<RAN> connections) {
+		this.connections = connections;
+	}
+
 	public boolean isActive() {
 		return active;
 	}
@@ -59,7 +63,12 @@ public class Terminal implements Serializable {
         Terminal terminal = (Terminal) o;
 
         if (active != terminal.active) return false;
-        if (uniqueName != null ? !uniqueName.equals(terminal.uniqueName) : terminal.uniqueName != null) return false;
+//        if (uniqueName != null ? !uniqueName.equals(terminal.uniqueName) : terminal.uniqueName != null) return false;
+        if (((uniqueName == null) && (terminal.uniqueName == null)) || (uniqueName.equals(terminal.uniqueName))) {
+			
+		} else {
+			return false;
+		}
         return connections != null ? connections.equals(terminal.connections) : terminal.connections == null;
     }
 
