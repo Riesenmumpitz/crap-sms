@@ -40,7 +40,7 @@ public class TerminalUi {
 			}
 			if (SubscriberService.existsSubscriberWithTerminal(terminal.getUniqueName())) {
 				System.out.printf(
-						"The subscription \"%s\" can not be deleted. There are still subscribers using this subscription.\n",
+						"The terminal \"%s\" can not be deleted. There are still subscribers using this terminal.\n",
 						terminal.getUniqueName());
 			} else {
 				break;
