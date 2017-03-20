@@ -41,6 +41,16 @@ public class Terminal implements Serializable {
 		return connections;
 	}
 
+	public RAN getMaxConnection() {
+		if (connections.contains(RAN.G4)) {
+			return RAN.G4;
+		} else if (connections.contains(RAN.G3)) {
+			return RAN.G3;
+		} else {
+			return RAN.G2;
+		}
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

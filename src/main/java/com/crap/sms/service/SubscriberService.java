@@ -29,6 +29,10 @@ public class SubscriberService {
     	return subscriberRepository.getAllBySubscription(subscription).isEmpty();
     }
 
+    public static boolean existsSubscriberWithTerminal(String terminal) {
+    	return subscriberRepository.getAllByTerminal(terminal).isEmpty();
+    }
+
     public static boolean removeSubScriber(Subscriber subscriber) {
         return subscriberRepository.delete(subscriber);
     }

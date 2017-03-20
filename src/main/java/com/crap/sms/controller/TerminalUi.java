@@ -6,9 +6,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.crap.sms.domain.model.RAN;
-import com.crap.sms.domain.model.Subscription;
 import com.crap.sms.domain.model.Terminal;
-import com.crap.sms.service.SubscriptionService;
+import com.crap.sms.service.SubscriberService;
 import com.crap.sms.service.TerminalService;
 
 public class TerminalUi {
@@ -23,7 +22,6 @@ public class TerminalUi {
 			return;
 		}
 		boolean active = getBoolean("Is the Terminal active (available for new subscribers)");
-		
 
 		Terminal terminal = new Terminal(name, connections, active);
 		if (TerminalService.saveTerminal(terminal)) {
@@ -34,10 +32,21 @@ public class TerminalUi {
 	}
 
 	public static void removeTerminal() {
-		Terminal terminal = getValidTerminal("Choose the terminal type you want to delete");
-		if (terminal == null) {
-			return;
+		Terminal terminal = null;
+		while (true) {
+			terminal = getValidTerminal("Choose the terminal type you want to delete");
+			if (terminal == null) {
+				return;
+			}
+			if (SubscriberService.existsSubscriberWithTerminal(terminal.getUniqueName())) {
+				System.out.printf(
+						"The subscription \"%s\" can not be deleted. There are still subscribers using this subscription.\n",
+						terminal.getUniqueName());
+			} else {
+				break;
+			}
 		}
+
 		if (TerminalService.removeTerminal(terminal)) {
 			System.out.println("Removed terminal type.");
 		} else {
@@ -55,7 +64,6 @@ public class TerminalUi {
 			return;
 		}
 		boolean active = getBoolean("Is the Terminal active (available for new subscribers)");
-		
 
 		Set<RAN> connections = getValidConnections();
 		if (connections.isEmpty()) {
@@ -149,7 +157,7 @@ public class TerminalUi {
 			}
 		}
 	}
-	
+
 	private static boolean getBoolean(String message) {
 		while (true) {
 			System.out.println(message + ": (Y/N)");

@@ -8,14 +8,14 @@ import com.crap.sms.domain.repository.SubscriptionRepository;
 
 public class SessionService {
 
-	public Session createPhoneSession(int seconds) {
+	public static Session createPhoneSession(int seconds) {
 		if (!(seconds >= 0 && seconds < Integer.MAX_VALUE)) {
 			return null;
 		}
 		return new Session(seconds);
 	}
 
-	public Session createDataSession(int seconds, RAN connection) {
+	public static Session createDataSession(int seconds, RAN connection) {
 		if (!(seconds >= 0 && seconds < Integer.MAX_VALUE)
 				|| connection == null) {
 			return null;
@@ -23,7 +23,7 @@ public class SessionService {
 		return new Session(seconds, connection, generateRandomConnectionRate());
 	}
 
-	private double generateRandomConnectionRate() {
+	private static double generateRandomConnectionRate() {
 		switch ((int) Math.random() * 4) {
 			case 0:
 				return 0;
@@ -39,7 +39,7 @@ public class SessionService {
 
 	}
 
-	public boolean bookSession(Subscriber sub, Session session) {
+	public static boolean bookSession(Subscriber sub, Session session) {
         String print = "";
 		boolean usedUp = false;
 		int usedSec = 0;

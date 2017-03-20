@@ -1,13 +1,16 @@
 package com.crap.sms.controller;
 
+import com.crap.sms.domain.model.RAN;
+import com.crap.sms.domain.model.Session;
 import com.crap.sms.domain.model.Subscriber;
 import com.crap.sms.domain.model.Subscription;
 import com.crap.sms.domain.model.Terminal;
 import com.crap.sms.domain.repository.SubscriberRepository;
+import com.crap.sms.domain.repository.TerminalRepository;
 import com.crap.sms.helper.SubscriberValidator;
 import com.crap.sms.service.InvoiceService;
+import com.crap.sms.service.SessionService;
 import com.crap.sms.service.SubscriberService;
-import com.crap.sms.service.TerminalService;
 
 import java.util.List;
 import java.util.Scanner;
@@ -34,7 +37,7 @@ public class UI {
 
 	private String buildPrompt(int function, String message) {
 		return String.format("(%2d) %-36s|\n", function, message);
-//				"(" + function + ") " + message + "\n";
+		// "(" + function + ") " + message + "\n";
 	}
 
 	private String getPrompt(int function) {
@@ -134,8 +137,8 @@ public class UI {
 
 	private String buildPrompt() {
 		final int width = 45;
-		final String boxLeft = "| ";			
-		final String boxFoot = String.format("+%0" + (width -3) + "d+\n", 0).replace("0", "-");//"+------------------------------------------+\n";
+		final String boxLeft = "| ";
+		final String boxFoot = String.format("+%0" + (width - 3) + "d+\n", 0).replace("0", "-");// "+------------------------------------------+\n";
 
 		StringBuilder result = new StringBuilder();
 		result.append("Please enter an action:\n");
@@ -170,22 +173,73 @@ public class UI {
 	}
 
 	private String buildBoxHeader(String boxHeader, int width) {
-		int i = width - 6 - boxHeader.length(); 
+		int i = width - 6 - boxHeader.length();
 		String result = String.format("+- %s ", boxHeader);
 		result += String.format("%0" + i + "d", 0).replace("0", "-") + "+\n";
 		return result;
 	}
-	
+
 	private void createInvoices() {
 		InvoiceService invoice = new InvoiceService();
 		System.out.println(invoice.work());
 	}
 
 	private void createNewSession() {
-		// TEL: seconds
-		// DATA: seconds & RAN of the terminal
-		// TODO Auto-generated method stub
-		System.out.println("TODO: Creating new Session");
+		boolean isPhoneCall = false;
+		while (true) {
+			System.out.println("Is is a Phone Call (P) or a Data Session (D)?");
+			String input = new Scanner(System.in).nextLine();
+			if (input.toUpperCase().equals("P")) {
+				isPhoneCall = true;
+				break;
+			} else if (input.toUpperCase().equals("D")) {
+				isPhoneCall = false;
+				break;
+			} else {
+				System.out.println("Invalid input.");
+			}
+		}
+
+		Subscriber subscriber = getValidSubscriber();
+		if (subscriber == null) {
+			return;
+		}
+
+		Session session;
+		if (isPhoneCall) {
+			int sec = readIntMin(1, "Enter the length of the phone call: (in sec)");
+			session = SessionService.createPhoneSession(sec);
+		} else {
+			int sec = readIntMin(1, "Enter the length of the data session: (in sec)");
+			RAN ran = TerminalRepository.getInstance().getByUniqueName(subscriber.getTerminal()).getMaxConnection();
+			session = SessionService.createDataSession(sec, ran);
+		}
+
+		SessionService.bookSession(subscriber, session);
+	}
+
+	private static int readIntMin(int min, String message) {
+		int result;
+		String input;
+		do {
+			System.out.println(message);
+			input = new Scanner(System.in).nextLine();
+			if (input.isEmpty()) {
+				return min - 1;
+			}
+			try {
+				result = Integer.parseInt(input);
+			} catch (Exception e) {
+				System.out.println("\"" + input + "\" is not a number.");
+				continue;
+			}
+			if (result >= min) {
+				break;
+			} else {
+				System.out.println("The number has to be bigger than " + min + ".");
+			}
+		} while (true);
+		return result;
 	}
 
 	private void addSubscriber() {
@@ -213,32 +267,37 @@ public class UI {
 		Subscriber subscriber = SubscriberService.addSubscriber(imsi, terminal, subscription, forename, surname);
 		if (subscriber != null) {
 			System.out.println("Created subscriber: " + subscriber);
-		}
-		else {
+		} else {
 			System.out.println("Internal problem. Could not add the subscriber.");
 		}
 	}
 
 	private void removeSubscriber() {
+		Subscriber subscriber = getValidSubscriber();
+		if (subscriber == null) {
+			return;
+		}
+
+		if (SubscriberService.removeSubScriber(subscriber)) {
+			System.out.println("Removed subscriber.");
+		} else {
+			System.out.println("Internal error. Could not remove the subscriber.");
+		}
+	}
+
+	private Subscriber getValidSubscriber() {
 		Subscriber subscriber;
 		do {
 			String imsi = getValidImsi();
 			if ((imsi == null) || (imsi.isEmpty())) {
-				return;
+				return null;
 			}
 			subscriber = SubscriberService.findSubscriberBy(imsi);
 			if (subscriber != null) {
-				break;
+				return subscriber;
 			}
 			System.out.println("Could not find subscriber with IMSI \"" + imsi + "\"");
 		} while (true);
-
-		if (SubscriberService.removeSubScriber(subscriber)) {
-			System.out.println("Removed subscriber.");
-		}
-		else {
-			System.out.println("Internal error. Could not remove the subscriber.");
-		}
 	}
 
 	private void listEntries() {
@@ -248,23 +307,22 @@ public class UI {
 	}
 
 	private String getValidImsi() {
-		String result;
 		do {
 			System.out.println("Please enter the MSIN (empty value for abort)");
-            String input = new Scanner(System.in).nextLine();
-            if (input == null || input.length() == 0) {
-                // Exit point!!!
-                System.out.println("Abort.\n");
-                return null;
-            }
-            String imsi = SubscriberValidator.MMC_MNC + input;
-            if (SubscriberValidator.isValidImsi(imsi)) {
-                // valid imsi
-                return imsi;
-            } else {
-                // invalid imsi
-                System.out.println("Invalid MSIN. The MSIN must consist of 10 digits.");
-            }
+			String input = new Scanner(System.in).nextLine();
+			if (input == null || input.length() == 0) {
+				// Exit point!!!
+				System.out.println("Abort.\n");
+				return null;
+			}
+			String imsi = SubscriberValidator.MMC_MNC + input;
+			if (SubscriberValidator.isValidImsi(imsi)) {
+				// valid imsi
+				return imsi;
+			} else {
+				// invalid imsi
+				System.out.println("Invalid MSIN. The MSIN must consist of 10 digits.");
+			}
 		} while (true);
 	}
 

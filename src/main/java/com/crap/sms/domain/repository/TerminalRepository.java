@@ -1,6 +1,5 @@
 package com.crap.sms.domain.repository;
 
-import com.crap.sms.domain.model.Subscription;
 import com.crap.sms.domain.model.Terminal;
 
 import java.io.File;

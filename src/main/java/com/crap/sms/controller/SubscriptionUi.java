@@ -36,11 +36,11 @@ public class SubscriptionUi {
 				return;
 			}
 			if (SubscriberService.existsSubscriberWithSubscription(subscription.getUniqueName())) {
-				break;
-			} else {
 				System.out.printf(
 						"The subscription \"%s\" can not be deleted. There are still subscribers using this subscription.\n",
 						subscription.getUniqueName());
+			} else {
+				break;
 			}
 		}
 
